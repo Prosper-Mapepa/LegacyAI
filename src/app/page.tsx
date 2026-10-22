@@ -29,13 +29,6 @@ export default function HomePage() {
           </Button>
           <Button
             asChild
-            variant="secondary"
-            className="w-full sm:w-auto"
-          >
-            <Link href="/customer/chat">Chat</Link>
-          </Button>
-          <Button
-            asChild
             variant="outline"
             className="w-full border-white/40 bg-white/10 text-white hover:bg-white/20 sm:w-auto"
           >
