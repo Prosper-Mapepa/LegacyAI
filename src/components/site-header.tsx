@@ -28,7 +28,7 @@ export function SiteHeader() {
   }
 
   const customerLinks = [
-    { href: "/customer", label: "Notification" },
+    { href: "/customer", label: "Use AI Demo" },
     { href: "/customer/chat", label: "Intake" },
     { href: "/customer/plan", label: "Plan" },
   ];

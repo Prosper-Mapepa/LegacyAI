@@ -64,7 +64,7 @@ function buildFormFromStore(
 }
 
 export function PlannerApp({
-  title = "Emergency fund diversification planner",
+  title = "Emergency Fund Diversification Planner",
   syncToStore = true,
   /** Compact phone-friendly layout. */
   stacked = false,

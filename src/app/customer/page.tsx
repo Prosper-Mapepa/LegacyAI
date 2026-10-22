@@ -34,13 +34,13 @@ export default function CustomerNotificationPage() {
       <div className="space-y-2">
         <div className="flex flex-wrap items-start justify-between gap-2 sm:gap-3">
           <h1 className="text-xl font-bold text-pnc-navy sm:text-2xl">
-            Customer notification
+            Use AI Demo
           </h1>
           <Link
             href="/rm"
             className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-pnc-blue hover:text-pnc-blue-light"
           >
-            Go to RM dashboard
+            Go to RM Dashboard
             <span aria-hidden>→</span>
           </Link>
         </div>
@@ -139,7 +139,7 @@ export default function CustomerNotificationPage() {
                 buffer only and are never used for eligibility or pricing.
               </p>
               <Button type="button" onClick={openIntake}>
-                Start LegacyAI intake
+                Start LegacyAI Intake
               </Button>
             </div>
           </div>

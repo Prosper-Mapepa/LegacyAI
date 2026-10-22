@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ClientOnly } from "@/components/client-only";
 import { PrototypeFooter } from "@/components/prototype-footer";
 import { Providers } from "@/components/providers";
+import { HeaderSkeleton, SiteLoader } from "@/components/site-loader";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
 
@@ -33,21 +34,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col overflow-x-hidden antialiased`}
       >
         <Providers>
-          <ClientOnly
-            fallback={
-              <div className="border-b border-pnc-border bg-white px-3 py-3 text-sm text-pnc-slate sm:px-4">
-                LegacyAI
-              </div>
-            }
-          >
+          <ClientOnly fallback={<HeaderSkeleton />}>
             <SiteHeader />
           </ClientOnly>
-          <main className="mx-auto w-full max-w-7xl flex-1 px-3 py-4 sm:px-4 sm:py-6">
-            <ClientOnly
-              fallback={
-                <p className="text-sm text-pnc-slate">Loading demo…</p>
-              }
-            >
+          <main className="mx-auto w-full max-w-7xl flex-1 px-3 py-3 sm:px-4 sm:py-4">
+            <ClientOnly fallback={<SiteLoader fullPage />}>
               {children}
             </ClientOnly>
           </main>

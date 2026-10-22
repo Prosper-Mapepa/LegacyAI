@@ -281,7 +281,7 @@ export default function CustomerChatPage() {
     <div className="space-y-4">
       <div>
         <h1 className="text-xl font-bold text-pnc-navy sm:text-2xl">
-          LegacyAI intake
+          LegacyAI Intake
         </h1>
         <p className="text-sm text-pnc-slate">
           One question at a time — chatbot style.
@@ -290,8 +290,8 @@ export default function CustomerChatPage() {
 
       <div className="flex justify-center">
         <PhoneFrame title="LegacyAI Chat">
-          <div className="flex min-h-[560px] flex-col">
-            <div className="flex-1 space-y-3 overflow-y-auto p-3">
+          <div className="flex min-h-[560px] flex-1 flex-col md:min-h-0">
+            <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-3">
               {messages.map((m) => (
                 <div
                   key={m.id}
@@ -309,7 +309,7 @@ export default function CustomerChatPage() {
               {step === "done" && planPreview && (
                 <div className="rounded-xl border border-pnc-border bg-white p-3 text-sm shadow-sm">
                   <p className="font-semibold text-pnc-navy">
-                    Your plan preview
+                    Your Plan Preview
                   </p>
                   <p className="mt-1 text-pnc-slate">
                     Emergency exposure:{" "}
@@ -335,7 +335,7 @@ export default function CustomerChatPage() {
               <div ref={bottomRef} />
             </div>
 
-            <div className="border-t border-pnc-border bg-white p-3">
+            <div className="mt-auto shrink-0 border-t border-pnc-border bg-white p-3">
               {step === "loans" && (
                 <div className="space-y-2">
                   <div className="flex flex-wrap gap-1.5">

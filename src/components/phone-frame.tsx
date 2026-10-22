@@ -43,7 +43,7 @@ export function PhoneFrame({
 
         <div
           className={cn(
-            "phone-frame-content overflow-x-hidden bg-[#f7f9fc]",
+            "phone-frame-content flex flex-col overflow-x-hidden bg-[#f7f9fc]",
             "min-h-[min(70vh,560px)]",
             "md:min-h-[640px] md:max-h-[720px] md:overflow-y-auto"
           )}

@@ -74,7 +74,7 @@ export default function RmDashboardPage() {
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
         <div>
           <h1 className="text-xl font-bold text-pnc-navy sm:text-2xl">
-            RM dashboard
+            RM Dashboard
           </h1>
           <p className="text-sm text-pnc-slate">
             AI-prioritized customers for LegacyAI outreach.
