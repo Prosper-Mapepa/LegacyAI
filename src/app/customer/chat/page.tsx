@@ -421,7 +421,7 @@ export default function CustomerChatPage() {
   }
 
   return (
-    <div className="md:space-y-4">
+    <div className="md:space-y-4 md:pt-3 lg:pt-4">
       <div className="hidden md:block">
         <h1 className="text-xl font-bold text-pnc-navy sm:text-2xl">
           LegacyAI Intake

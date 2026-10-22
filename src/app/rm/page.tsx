@@ -70,7 +70,7 @@ export default function RmDashboardPage() {
     : null;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pt-3 sm:pt-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
         <div>
           <h1 className="text-xl font-bold text-pnc-navy sm:text-2xl">

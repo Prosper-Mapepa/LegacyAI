@@ -8,7 +8,7 @@ export function HeaderSkeleton() {
       className="fixed inset-x-0 top-0 z-40 border-b border-pnc-border bg-white"
       aria-hidden
     >
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-3 sm:px-4 md:h-auto md:py-3">
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-3 px-3 sm:px-4 md:h-[4.25rem]">
         <BrandLogo />
         <div className="flex items-center gap-2">
           <div className="h-8 w-28 animate-pulse rounded-md bg-pnc-bg" />

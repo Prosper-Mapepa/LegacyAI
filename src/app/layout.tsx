@@ -46,7 +46,7 @@ export default function RootLayout({
           </ClientOnly>
           {/* Spacer for fixed header (h-14 on mobile; taller on md+) */}
           <div className="h-14 shrink-0 md:h-[4.25rem]" aria-hidden />
-          <main className="mx-auto w-full max-w-7xl flex-1 px-3 py-3 sm:px-4 sm:py-4">
+          <main className="mx-auto w-full max-w-7xl flex-1 px-3 pb-3 pt-0 sm:px-4 sm:pb-4">
             <ClientOnly fallback={<SiteLoader fullPage />}>
               {children}
             </ClientOnly>

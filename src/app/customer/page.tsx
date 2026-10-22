@@ -182,7 +182,7 @@ export default function CustomerNotificationPage() {
     <div
       className={cn(
         "mx-auto flex w-full flex-col",
-        isMobile ? "max-w-none" : "max-w-lg gap-4 lg:max-w-none"
+        isMobile ? "max-w-none" : "max-w-lg gap-4 pt-3 sm:pt-4 lg:max-w-none"
       )}
     >
       <div className="hidden items-center justify-between gap-3 lg:flex">

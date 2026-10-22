@@ -134,7 +134,7 @@ export function SiteHeader() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-40 border-b border-pnc-border bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/90">
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-2 px-3 sm:px-4 md:grid md:h-auto md:grid-cols-[1fr_auto_1fr] md:gap-3 md:py-3">
+      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between gap-2 px-3 sm:px-4 md:grid md:h-[4.25rem] md:grid-cols-[1fr_auto_1fr] md:items-center md:gap-3 md:py-0">
         <div className="min-w-0 justify-self-start">
           <Link
             href="/"

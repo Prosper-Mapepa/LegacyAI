@@ -11,9 +11,9 @@ import {
 export default function HomePage() {
   return (
     <div className="flex min-h-[calc(100dvh-3.5rem-2.5rem)] flex-col gap-3 md:min-h-[calc(100dvh-4.25rem-2.5rem)] md:gap-4">
-      {/* Full-bleed hero: flush under header; text aligns with logo (px-3 / sm:px-4) */}
-      <section className="relative left-1/2 flex w-screen max-w-[100vw] -translate-x-1/2 flex-1 flex-col justify-start bg-gradient-to-br from-pnc-navy via-[#0d3a6e] to-pnc-blue text-white -mt-3 sm:-mt-4">
-        <div className="mx-auto w-full max-w-7xl px-3 pt-4 pb-8 sm:px-4 sm:pt-5 sm:pb-10 md:pt-6 md:pb-12">
+      {/* Full-bleed hero: spans the viewport width, flush under the header */}
+      <section className="relative left-1/2 flex w-screen max-w-[100vw] -translate-x-1/2 flex-1 flex-col justify-center bg-gradient-to-br from-pnc-navy via-[#0d3a6e] to-pnc-blue text-white">
+        <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-5 py-8 sm:px-8 sm:py-10 md:px-10 md:py-12 lg:px-12">
           <h1 className="max-w-4xl text-3xl font-bold tracking-tight leading-[1.2] sm:text-4xl md:text-[2.75rem] md:leading-[1.15] lg:text-5xl">
             <span className="text-ai-glow">AI-Assisted</span>
             <span className="mt-1.5 block text-white sm:mt-2">

@@ -5,7 +5,7 @@ import { PlannerApp } from "@/components/planner/planner-app";
 
 export default function CustomerPlanPage() {
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pt-3 sm:pt-4">
       <div className="text-center md:text-left">
         <h1 className="text-xl font-bold text-pnc-navy sm:text-2xl">
           Your LegacyAI Plan
