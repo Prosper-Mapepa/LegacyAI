@@ -12,16 +12,19 @@ export default function HomePage() {
   return (
     <div className="flex min-h-[calc(100dvh-3.5rem-2.5rem)] flex-col gap-3 md:min-h-[calc(100dvh-4.25rem-2.5rem)] md:gap-4">
       <section className="flex flex-1 flex-col justify-center rounded-xl bg-gradient-to-br from-pnc-navy via-[#0d3a6e] to-pnc-blue px-5 py-6 text-white sm:px-8 sm:py-8 md:px-10 md:py-9 lg:px-12">
-        <h1 className="max-w-3xl text-2xl font-bold tracking-tight leading-[1.25] sm:text-3xl md:text-4xl md:leading-[1.2]">
+        <h1 className="max-w-4xl text-3xl font-bold tracking-tight leading-[1.2] sm:text-4xl md:text-[2.75rem] md:leading-[1.15] lg:text-5xl">
           <span className="text-ai-glow">AI-Assisted</span>
-          <span className="mt-1 block text-white">
+          <span className="mt-1.5 block text-white sm:mt-2">
             Wealth Transition &amp; Emergency-Fund Diversification
           </span>
+          <span className="mt-2 block text-lg font-semibold leading-snug text-blue-50/95 sm:text-xl md:mt-3 md:text-2xl md:font-semibold">
+            From RM outreach to a live Liquidity · Safe · Growth plan
+          </span>
         </h1>
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-blue-100 sm:text-base md:mt-4">
+        <p className="mt-3 max-w-2xl text-base leading-relaxed text-blue-100 sm:mt-4 sm:text-lg">
           A clickable prototype: identify $100K+ customers, approve outreach,
-          complete intake, and guide Liquidity / Safe / Growth diversification
-          from qualitative emergency exposure — with RM review before action.
+          complete intake, and guide diversification from qualitative emergency
+          exposure — with RM review before action.
         </p>
         <div className="mt-5 flex flex-col gap-2.5 sm:mt-6 sm:flex-row sm:flex-wrap sm:gap-3">
           <Button asChild className="w-full sm:w-auto">
