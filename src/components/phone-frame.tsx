@@ -10,20 +10,30 @@ export function PhoneFrame({
   children,
   title = "LegacyAI",
   className,
+  fillHeight = false,
 }: {
   children: ReactNode;
   title?: string;
   className?: string;
+  /** Stretch to fill parent height (used by mobile chat shell). */
+  fillHeight?: boolean;
 }) {
   return (
-    <div className={cn("mx-auto w-full max-w-lg md:max-w-[390px]", className)}>
+    <div
+      className={cn(
+        "mx-auto w-full max-w-lg md:max-w-[390px]",
+        fillHeight && "flex h-full min-h-0 flex-col",
+        className
+      )}
+    >
       <div
         className={cn(
           "overflow-hidden bg-white",
+          fillHeight && "flex h-full min-h-0 flex-col",
           "md:rounded-[2rem] md:border-[10px] md:border-pnc-navy md:shadow-xl"
         )}
       >
-        <div className="hidden items-center justify-between gap-2 bg-pnc-navy px-3 py-2.5 text-white md:flex">
+        <div className="hidden shrink-0 items-center justify-between gap-2 bg-pnc-navy px-3 py-2.5 text-white md:flex">
           <span className="w-8 shrink-0 text-[10px] font-medium opacity-80">
             9:41
           </span>
@@ -43,15 +53,16 @@ export function PhoneFrame({
 
         <div
           className={cn(
-            "phone-frame-content flex flex-col overflow-x-hidden bg-[#f7f9fc]",
-            "min-h-[min(70vh,560px)]",
-            "md:min-h-[640px] md:max-h-[720px] md:overflow-y-auto"
+            "phone-frame-content flex min-h-0 flex-col overflow-x-hidden bg-[#f7f9fc]",
+            fillHeight
+              ? "h-full flex-1"
+              : "min-h-[min(70vh,560px)] md:min-h-[640px] md:max-h-[720px] md:overflow-y-auto"
           )}
         >
           {children}
         </div>
 
-        <div className="hidden justify-center bg-white py-2 md:flex">
+        <div className="hidden shrink-0 justify-center bg-white py-2 md:flex">
           <div className="h-1 w-28 rounded-full bg-slate-300" aria-hidden />
         </div>
       </div>

@@ -1,11 +1,18 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { RotateCcw } from "lucide-react";
+import { Menu, RotateCcw } from "lucide-react";
 import { BrandLogo } from "@/components/brand-logo";
 import { HowItWorks } from "@/components/how-it-works";
 import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import { useDemoStore } from "@/store/demo-store";
 import { cn } from "@/lib/utils";
 
@@ -15,6 +22,7 @@ export function SiteHeader() {
   const resetDemo = useDemoStore((s) => s.resetDemo);
   const router = useRouter();
   const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   function switchRole(next: "rm" | "customer") {
     setRole(next);
@@ -24,6 +32,7 @@ export function SiteHeader() {
 
   function handleReset() {
     resetDemo();
+    setMenuOpen(false);
     router.push("/rm");
   }
 
@@ -39,6 +48,14 @@ export function SiteHeader() {
       active
         ? "bg-orange-50 font-semibold text-pnc-navy after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:rounded-full after:bg-pnc-orange"
         : "text-pnc-slate hover:bg-pnc-bg hover:text-pnc-navy"
+    );
+
+  const menuLinkClass = (active: boolean) =>
+    cn(
+      "block rounded-md px-3 py-3 text-base font-medium",
+      active
+        ? "bg-orange-50 font-semibold text-pnc-navy"
+        : "text-pnc-navy hover:bg-pnc-bg"
     );
 
   const roleSwitcher = (compact: boolean) => (
@@ -76,7 +93,7 @@ export function SiteHeader() {
     </div>
   );
 
-  const navLinks = (
+  const desktopNavLinks = (
     <>
       {role === "rm" ? (
         <Link
@@ -111,6 +128,10 @@ export function SiteHeader() {
     </>
   );
 
+  function closeAndGo() {
+    setMenuOpen(false);
+  }
+
   return (
     <header className="sticky top-0 z-40 border-b border-pnc-border bg-white">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-2.5 sm:px-4 md:grid md:grid-cols-[1fr_auto_1fr] md:gap-3 md:py-3">
@@ -127,7 +148,7 @@ export function SiteHeader() {
           aria-label="Primary"
           className="hidden items-center justify-center gap-1 md:flex"
         >
-          {navLinks}
+          {desktopNavLinks}
         </nav>
 
         {/* Mobile actions */}
@@ -143,6 +164,68 @@ export function SiteHeader() {
           >
             <RotateCcw className="h-4 w-4" aria-hidden />
           </Button>
+          <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+            <Button
+              variant="outline"
+              size="icon"
+              className="shrink-0"
+              aria-label="Open menu"
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen(true)}
+            >
+              <Menu className="h-5 w-5" aria-hidden />
+            </Button>
+            <SheetContent side="right" className="w-[min(100%,20rem)] p-0">
+              <SheetHeader className="border-b border-pnc-border px-4 py-4 text-left">
+                <SheetTitle>Menu</SheetTitle>
+              </SheetHeader>
+              <nav aria-label="Mobile primary" className="flex flex-col p-2">
+                {role === "rm" ? (
+                  <Link
+                    href="/rm"
+                    className={menuLinkClass(pathname.startsWith("/rm"))}
+                    aria-current={
+                      pathname.startsWith("/rm") ? "page" : undefined
+                    }
+                    onClick={closeAndGo}
+                  >
+                    RM Dashboard
+                  </Link>
+                ) : (
+                  customerLinks.map((l) => {
+                    const active = pathname === l.href;
+                    return (
+                      <Link
+                        key={l.href}
+                        href={l.href}
+                        className={menuLinkClass(active)}
+                        aria-current={active ? "page" : undefined}
+                        onClick={closeAndGo}
+                      >
+                        {l.label}
+                      </Link>
+                    );
+                  })
+                )}
+                <Link
+                  href="/planner"
+                  className={menuLinkClass(pathname === "/planner")}
+                  aria-current={pathname === "/planner" ? "page" : undefined}
+                  onClick={closeAndGo}
+                >
+                  Planner
+                </Link>
+                <Link
+                  href="/"
+                  className={menuLinkClass(pathname === "/")}
+                  aria-current={pathname === "/" ? "page" : undefined}
+                  onClick={closeAndGo}
+                >
+                  Home
+                </Link>
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
 
         {/* Desktop actions */}
@@ -154,13 +237,6 @@ export function SiteHeader() {
           </Button>
         </div>
       </div>
-
-      <nav
-        aria-label="Mobile primary"
-        className="flex items-center justify-center gap-0.5 overflow-x-auto border-t border-pnc-border px-2 py-1.5 text-[13px] md:hidden"
-      >
-        {navLinks}
-      </nav>
     </header>
   );
 }

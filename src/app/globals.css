@@ -73,6 +73,14 @@ body {
   font-size: 16px;
 }
 
+/* Intake chat on real phones: keep the chat fixed; only the message list scrolls */
+html.chat-mobile-lock,
+body.chat-mobile-lock {
+  overflow: hidden;
+  height: 100%;
+  overscroll-behavior: none;
+}
+
 *:focus-visible {
   outline: 2px solid var(--pnc-blue);
   outline-offset: 2px;

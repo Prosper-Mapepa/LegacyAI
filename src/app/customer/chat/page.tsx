@@ -142,13 +142,35 @@ export default function CustomerChatPage() {
     growth: number;
   } | null>(null);
   const [unclassified, setUnclassified] = useState(false);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const messagesRef = useRef<HTMLDivElement>(null);
 
   const step = STEPS[stepIndex];
 
+  // Scroll only inside the chat pane — never the page (avoids jump on mobile keyboard).
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    const pane = messagesRef.current;
+    if (!pane) return;
+    pane.scrollTop = pane.scrollHeight;
   }, [messages, stepIndex]);
+
+  // Lock page scroll on mobile while the fixed chat shell is showing.
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    function apply() {
+      document.documentElement.classList.toggle(
+        "chat-mobile-lock",
+        mq.matches
+      );
+      document.body.classList.toggle("chat-mobile-lock", mq.matches);
+    }
+    apply();
+    mq.addEventListener("change", apply);
+    return () => {
+      mq.removeEventListener("change", apply);
+      document.documentElement.classList.remove("chat-mobile-lock");
+      document.body.classList.remove("chat-mobile-lock");
+    };
+  }, []);
 
   function push(from: "bot" | "user", msg: string) {
     setMessages((m) => [
@@ -278,8 +300,8 @@ export default function CustomerChatPage() {
   }
 
   return (
-    <div className="space-y-4">
-      <div>
+    <div className="md:space-y-4">
+      <div className="hidden md:block">
         <h1 className="text-xl font-bold text-pnc-navy sm:text-2xl">
           LegacyAI Intake
         </h1>
@@ -288,10 +310,27 @@ export default function CustomerChatPage() {
         </p>
       </div>
 
-      <div className="flex justify-center">
-        <PhoneFrame title="LegacyAI Chat">
-          <div className="flex min-h-[560px] flex-1 flex-col md:min-h-0">
-            <div className="min-h-0 flex-1 space-y-3 overflow-y-auto p-3">
+      {/* Keeps layout height on mobile while chat is position:fixed */}
+      <div className="h-[calc(100dvh-3.5rem)] md:hidden" aria-hidden />
+
+      {/* Mobile: fixed chat shell so keyboard focus doesn't scroll the page away */}
+      <div
+        className={cn(
+          "flex justify-center",
+          "max-md:fixed max-md:inset-x-0 max-md:bottom-0 max-md:top-14 max-md:z-30 max-md:bg-pnc-bg",
+          "max-md:px-0"
+        )}
+      >
+        <PhoneFrame
+          title="LegacyAI Chat"
+          className="max-md:h-full max-md:max-w-none"
+          fillHeight
+        >
+          <div className="flex h-full min-h-0 flex-1 flex-col md:min-h-[560px]">
+            <div
+              ref={messagesRef}
+              className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain p-3"
+            >
               {messages.map((m) => (
                 <div
                   key={m.id}
@@ -332,10 +371,9 @@ export default function CustomerChatPage() {
                   </Button>
                 </div>
               )}
-              <div ref={bottomRef} />
             </div>
 
-            <div className="mt-auto shrink-0 border-t border-pnc-border bg-white p-3">
+            <div className="mt-auto shrink-0 border-t border-pnc-border bg-white p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
               {step === "loans" && (
                 <div className="space-y-2">
                   <div className="flex flex-wrap gap-1.5">
@@ -572,7 +610,22 @@ export default function CustomerChatPage() {
                   <Input
                     value={text}
                     onChange={(e) => setText(e.target.value)}
+                    onFocus={(e) => {
+                      // Keep chat fixed: don't let the browser scroll the page.
+                      const y = window.scrollY;
+                      requestAnimationFrame(() => {
+                        window.scrollTo(0, y);
+                        const pane = messagesRef.current;
+                        if (pane) pane.scrollTop = pane.scrollHeight;
+                      });
+                      e.target.scrollIntoView({
+                        block: "nearest",
+                        inline: "nearest",
+                      });
+                    }}
                     className="min-w-0 flex-1"
+                    enterKeyHint="send"
+                    autoComplete="off"
                     placeholder={
                       step === "fund"
                         ? formatCurrency(100_000)
