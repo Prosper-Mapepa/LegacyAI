@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+:root {
+  --pnc-orange: #f57c00;
+  --pnc-orange-dark: #e65100;
+  --pnc-blue: #003da5;
+  --pnc-blue-light: #0051d4;
+  --pnc-navy: #0a2540;
+  --pnc-slate: #5a6a7a;
+  --pnc-bg: #f4f7fb;
+  --pnc-surface: #ffffff;
+  --pnc-border: #d8e0ea;
+  --pnc-success: #1b7a4e;
+  --pnc-warning: #b86e00;
+  --background: var(--pnc-bg);
+  --foreground: var(--pnc-navy);
+  --radius: 0.5rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-pnc-orange: var(--pnc-orange);
+  --color-pnc-orange-dark: var(--pnc-orange-dark);
+  --color-pnc-blue: var(--pnc-blue);
+  --color-pnc-blue-light: var(--pnc-blue-light);
+  --color-pnc-navy: var(--pnc-navy);
+  --color-pnc-slate: var(--pnc-slate);
+  --color-pnc-bg: var(--pnc-bg);
+  --color-pnc-surface: var(--pnc-surface);
+  --color-pnc-border: var(--pnc-border);
+  --color-pnc-success: var(--pnc-success);
+  --color-pnc-warning: var(--pnc-warning);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (min-width: 768px) {
+  html {
+    /* Slightly larger type on desktop for readability — not applied on mobile */
+    font-size: 17.5px;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Keep phone mockups at compact mobile sizing even on large screens */
+.phone-frame-content {
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--pnc-blue);
+  outline-offset: 2px;
+}
+
+@keyframes orange-glow-shift {
+  0% {
+    background-position: 0% 50%;
+    filter: drop-shadow(0 0 6px rgba(245, 124, 0, 0.55));
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: drop-shadow(0 0 14px rgba(255, 167, 38, 0.85));
+  }
+  100% {
+    background-position: 0% 50%;
+    filter: drop-shadow(0 0 6px rgba(230, 81, 0, 0.55));
+  }
+}
+
+.text-ai-glow {
+  background-image: linear-gradient(
+    90deg,
+    #e65100,
+    #ff9800,
+    #ffc107,
+    #ff9800,
+    #f57c00,
+    #e65100
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: orange-glow-shift 3s ease-in-out infinite;
+}
