@@ -61,7 +61,7 @@ export function PhoneFrame({
           className={cn(
             "phone-frame-content flex min-h-0 flex-col overflow-x-hidden bg-[#f7f9fc]",
             fillHeight
-              ? "h-full flex-1"
+              ? "h-full min-h-0 flex-1"
               : "min-h-[min(70vh,560px)] md:min-h-[640px] md:max-h-[720px] md:overflow-y-auto"
           )}
         >

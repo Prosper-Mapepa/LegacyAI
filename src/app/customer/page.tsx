@@ -3,19 +3,20 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Bell, ChevronLeft, Mail } from "lucide-react";
+import { Bell, ChevronLeft } from "lucide-react";
 import { PhoneFrame } from "@/components/phone-frame";
 import { Button } from "@/components/ui/button";
 import { getFeaturedCustomer } from "@/data/mock";
+import { useIsMobileLg } from "@/hooks/use-media-query";
 import { useDemoStore } from "@/store/demo-store";
 import { cn } from "@/lib/utils";
 
 type DemoStep = "push" | "email";
 
-/** Step 1 — push notification only (no profile / greeting card). */
+/** Step 1 — push notification (top of screen). */
 function PushNotification({ onOpen }: { onOpen: () => void }) {
   return (
-    <div className="flex h-full min-h-[520px] flex-1 flex-col gap-3 bg-gradient-to-b from-slate-100 to-slate-200 px-4 pt-4 pb-8">
+    <div className="flex h-full min-h-0 flex-1 flex-col gap-3 bg-gradient-to-b from-slate-100 to-slate-200 px-4 pt-4 pb-8">
       <p className="text-center text-[11px] font-semibold uppercase tracking-wide text-pnc-orange">
         Tap notification
       </p>
@@ -54,7 +55,7 @@ function PushNotification({ onOpen }: { onOpen: () => void }) {
   );
 }
 
-/** Step 2 — email inside the same phone frame; CTA starts intake. */
+/** Step 2 — full-bleed mail layout; CTA opens intake. */
 function InviteEmail({
   firstName,
   lastName,
@@ -67,81 +68,66 @@ function InviteEmail({
   onStartIntake: () => void;
 }) {
   return (
-    <div className="flex h-full min-h-[520px] flex-1 flex-col bg-[#eef1f6]">
-      <div className="flex shrink-0 items-center gap-2 border-b border-pnc-border bg-white px-2 py-2.5">
+    <div className="flex h-full min-h-0 flex-1 flex-col bg-white">
+      <header className="flex shrink-0 items-center gap-1 border-b border-pnc-border px-2 py-2.5">
         <button
           type="button"
           onClick={onBack}
-          className="inline-flex items-center gap-0.5 rounded-md px-2 py-1.5 text-sm font-medium text-pnc-blue hover:bg-pnc-bg"
+          className="inline-flex items-center gap-0.5 rounded-md px-2 py-1.5 text-sm font-semibold text-pnc-blue hover:bg-pnc-bg"
           aria-label="Back to notification"
         >
-          <ChevronLeft className="h-4 w-4" aria-hidden />
+          <ChevronLeft className="h-5 w-5" aria-hidden />
           Inbox
         </button>
-        <div className="flex min-w-0 flex-1 items-center justify-center gap-1.5">
-          <Mail className="h-4 w-4 shrink-0 text-pnc-blue" aria-hidden />
-          <span className="truncate text-sm font-semibold text-pnc-navy">
-            Mail
+      </header>
+
+      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 pt-4 pb-2">
+        <h2 className="text-xl font-bold leading-snug tracking-tight text-pnc-navy">
+          Your LegacyAI planning invite
+        </h2>
+
+        <div className="mt-4 flex items-start gap-3">
+          <span
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-pnc-blue text-sm font-bold text-white"
+            aria-hidden
+          >
+            L
           </span>
-        </div>
-        <span className="w-14 shrink-0" aria-hidden />
-      </div>
-
-      <div className="flex flex-1 flex-col overflow-y-auto p-3">
-        <article className="flex flex-1 flex-col rounded-xl bg-white p-4 shadow-sm">
-          <p className="text-[11px] font-semibold uppercase tracking-wide text-pnc-orange">
-            Invite email
-          </p>
-          <h2 className="mt-2 text-base font-bold leading-snug text-pnc-navy">
-            Your LegacyAI planning invite
-          </h2>
-
-          <dl className="mt-3 space-y-1.5 border-b border-pnc-border pb-3 text-xs">
-            <div className="flex gap-2">
-              <dt className="w-12 shrink-0 text-pnc-slate">From</dt>
-              <dd className="font-medium text-pnc-navy">
+          <div className="min-w-0 flex-1">
+            <div className="flex items-baseline justify-between gap-2">
+              <p className="truncate text-sm font-semibold text-pnc-navy">
                 LegacyAI Concierge
-              </dd>
+              </p>
+              <p className="shrink-0 text-[11px] text-pnc-slate">Today</p>
             </div>
-            <div className="flex gap-2">
-              <dt className="w-12 shrink-0 text-pnc-slate">To</dt>
-              <dd className="font-medium text-pnc-navy">
-                {firstName} {lastName}
-              </dd>
-            </div>
-            <div className="flex gap-2">
-              <dt className="w-12 shrink-0 text-pnc-slate">Subject</dt>
-              <dd className="font-medium text-pnc-navy">
-                Start your emergency-fund plan
-              </dd>
-            </div>
-          </dl>
-
-          <div className="mt-4 flex-1 space-y-3 text-sm leading-relaxed text-pnc-navy">
-            <p>Hi {firstName},</p>
-            <p>
-              Your relationship manager invited you to complete a short{" "}
-              <strong>LegacyAI</strong> intake. In a few questions, we&apos;ll
-              sketch how to split your fund across Liquidity, Safe Investment,
-              and Growth.
-            </p>
-            <p>
-              This is guidance only. An RM reviews every recommendation before
-              you act. Optional details are skippable anytime.
-            </p>
-            <p className="text-xs text-pnc-slate">
-              Demo prototype · synthetic data · not a real bank email
+            <p className="mt-0.5 text-xs text-pnc-slate">
+              to {firstName} {lastName}
             </p>
           </div>
+        </div>
 
-          <Button
-            type="button"
-            className="mt-5 w-full"
-            onClick={onStartIntake}
-          >
-            Open intake chat
-          </Button>
-        </article>
+        <div className="mt-5 space-y-3.5 text-[15px] leading-relaxed text-pnc-navy">
+          <p>Hi {firstName},</p>
+          <p>
+            Your relationship manager invited you to complete a short{" "}
+            <strong>LegacyAI</strong> intake. Answer a few questions and we
+            will sketch how to split your fund across Liquidity, Safe
+            Investment, and Growth.
+          </p>
+          <p>
+            Guidance only — an RM reviews every recommendation before you act.
+            Optional details can be skipped anytime.
+          </p>
+          <p className="text-xs leading-normal text-pnc-slate">
+            Demo prototype · synthetic data · not a real bank email
+          </p>
+        </div>
+      </div>
+
+      <div className="shrink-0 border-t border-pnc-border bg-white px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+        <Button type="button" className="h-11 w-full text-base" onClick={onStartIntake}>
+          Open intake chat
+        </Button>
       </div>
     </div>
   );
@@ -155,6 +141,7 @@ export default function CustomerNotificationPage() {
   const featured =
     customers.find((c) => c.featured) ?? getFeaturedCustomer();
   const [step, setStep] = useState<DemoStep>("push");
+  const isMobile = useIsMobileLg();
 
   function openEmail() {
     setNotificationSeen(true);
@@ -192,7 +179,12 @@ export default function CustomerNotificationPage() {
     );
 
   return (
-    <div className="mx-auto flex w-full max-w-lg flex-col gap-4 lg:max-w-none">
+    <div
+      className={cn(
+        "mx-auto flex w-full flex-col",
+        isMobile ? "max-w-none" : "max-w-lg gap-4 lg:max-w-none"
+      )}
+    >
       <div className="hidden items-center justify-between gap-3 lg:flex">
         <div>
           <h1 className="text-2xl font-bold text-pnc-navy">Use AI Demo</h1>
@@ -209,15 +201,27 @@ export default function CustomerNotificationPage() {
         </Link>
       </div>
 
-      <div className="-mx-3 flex justify-center lg:mx-0 lg:py-2">
+      {/* Mobile: full-screen under header. Desktop: centered phone chrome. */}
+      <div
+        className={cn(
+          isMobile
+            ? "fixed inset-x-0 bottom-0 top-14 z-30 -mx-0 bg-white"
+            : "flex justify-center lg:py-2"
+        )}
+      >
         <PhoneFrame
           title={step === "push" ? "Messages" : "Mail"}
-          className="max-lg:max-w-none"
-          chrome
+          className={cn(isMobile && "h-full max-w-none")}
+          fillHeight={isMobile}
+          chrome={!isMobile}
         >
           {screen}
         </PhoneFrame>
       </div>
+
+      {isMobile && (
+        <div className="h-[calc(100dvh-3.5rem)]" aria-hidden />
+      )}
     </div>
   );
 }
