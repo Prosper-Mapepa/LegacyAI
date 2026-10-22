@@ -17,9 +17,6 @@ export default function HomePage() {
           <span className="mt-1.5 block text-white sm:mt-2">
             Wealth Transition &amp; Emergency-Fund Diversification
           </span>
-          <span className="mt-2 block text-lg font-semibold leading-snug text-blue-50/95 sm:text-xl md:mt-3 md:text-2xl md:font-semibold">
-            From RM outreach to a live Liquidity · Safe · Growth plan
-          </span>
         </h1>
         <p className="mt-3 max-w-2xl text-base leading-relaxed text-blue-100 sm:mt-4 sm:text-lg">
           A clickable prototype: identify $100K+ customers, approve outreach,
