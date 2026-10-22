@@ -6,8 +6,7 @@ export function PrototypeFooter() {
           role="status"
           className="text-center text-[0.6rem] font-bold uppercase leading-none tracking-wide text-amber-950 sm:text-right"
         >
-          Demo Prototype · Synthetic Data · Not A Real Bank · Not Financial
-          Advice
+          Prototype · Synthetic Data · Not Financial Advice
         </p>
       </div>
     </footer>
