@@ -25,6 +25,20 @@ export default function HomePage() {
         </p>
         <div className="mt-4 flex flex-col gap-2.5 sm:mt-5 sm:flex-row sm:flex-wrap sm:gap-3">
           <Button asChild className="w-full sm:w-auto">
+            <Link href="/customer">Use AI Demo</Link>
+          </Button>
+          <Button
+            asChild
+            variant="secondary"
+            className="w-full sm:w-auto"
+          >
+            <Link href="/customer/chat">Chat</Link>
+          </Button>
+          <Button
+            asChild
+            variant="outline"
+            className="w-full border-white/40 bg-white/10 text-white hover:bg-white/20 sm:w-auto"
+          >
             <Link href="/rm">Start As RM</Link>
           </Button>
           <Button
