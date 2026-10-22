@@ -3,20 +3,23 @@ import { BrandLogo } from "@/components/brand-logo";
 import { cn } from "@/lib/utils";
 
 /**
- * On desktop/tablet: demo phone chrome.
- * On real mobile viewports: full-width native content (no fake bezel).
+ * Phone mockup for the demo journey.
+ * `chrome={false}` = full-bleed content (immersive mobile chat).
  */
 export function PhoneFrame({
   children,
   title = "LegacyAI",
   className,
   fillHeight = false,
+  chrome = true,
 }: {
   children: ReactNode;
   title?: string;
   className?: string;
   /** Stretch to fill parent height (used by mobile chat shell). */
   fillHeight?: boolean;
+  /** Show device bezel / status bar / home indicator. */
+  chrome?: boolean;
 }) {
   return (
     <div
@@ -30,26 +33,29 @@ export function PhoneFrame({
         className={cn(
           "overflow-hidden bg-white",
           fillHeight && "flex h-full min-h-0 flex-col",
-          "md:rounded-[2rem] md:border-[10px] md:border-pnc-navy md:shadow-xl"
+          chrome &&
+            "rounded-[1.25rem] border-[8px] border-pnc-navy shadow-xl sm:rounded-[2rem] sm:border-[10px]"
         )}
       >
-        <div className="hidden shrink-0 items-center justify-between gap-2 bg-pnc-navy px-3 py-2.5 text-white md:flex">
-          <span className="w-8 shrink-0 text-[10px] font-medium opacity-80">
-            9:41
-          </span>
-          <div className="flex min-w-0 flex-1 flex-col items-center gap-0.5">
-            <BrandLogo onDark size="sm" />
-            <span className="truncate text-[10px] font-medium text-white/75">
-              {title}
+        {chrome && (
+          <div className="flex shrink-0 items-center justify-between gap-2 bg-pnc-navy px-3 py-2.5 text-white">
+            <span className="w-8 shrink-0 text-[10px] font-medium opacity-80">
+              9:41
+            </span>
+            <div className="flex min-w-0 flex-1 flex-col items-center gap-0.5">
+              <BrandLogo onDark size="sm" />
+              <span className="truncate text-[10px] font-medium text-white/75">
+                {title}
+              </span>
+            </div>
+            <span
+              className="w-8 shrink-0 text-right text-[10px] opacity-80"
+              aria-hidden
+            >
+              ●●
             </span>
           </div>
-          <span
-            className="w-8 shrink-0 text-right text-[10px] opacity-80"
-            aria-hidden
-          >
-            ●●
-          </span>
-        </div>
+        )}
 
         <div
           className={cn(
@@ -62,9 +68,11 @@ export function PhoneFrame({
           {children}
         </div>
 
-        <div className="hidden shrink-0 justify-center bg-white py-2 md:flex">
-          <div className="h-1 w-28 rounded-full bg-slate-300" aria-hidden />
-        </div>
+        {chrome && (
+          <div className="flex shrink-0 justify-center bg-white py-2">
+            <div className="h-1 w-28 rounded-full bg-slate-300" aria-hidden />
+          </div>
+        )}
       </div>
     </div>
   );

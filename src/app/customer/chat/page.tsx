@@ -13,6 +13,7 @@ import {
 } from "@/lib/ai";
 import type { Habit, PlannedLoan, ContactMethod } from "@/lib/types";
 import { formatCurrency, cn } from "@/lib/utils";
+import { useIsMobileLg } from "@/hooks/use-media-query";
 import {
   MOBILE_HEADER_OFFSET,
   useVisualViewportHeight,
@@ -148,6 +149,7 @@ export default function CustomerChatPage() {
   const [unclassified, setUnclassified] = useState(false);
   const messagesRef = useRef<HTMLDivElement>(null);
   const chatHeight = useVisualViewportHeight(MOBILE_HEADER_OFFSET);
+  const isMobile = useIsMobileLg();
 
   const step = STEPS[stepIndex];
 
@@ -334,6 +336,7 @@ export default function CustomerChatPage() {
           title="LegacyAI Chat"
           className="max-md:h-full max-md:max-w-none"
           fillHeight
+          chrome={!isMobile}
         >
           <div className="flex h-full min-h-0 flex-1 flex-col md:min-h-[560px]">
             <div

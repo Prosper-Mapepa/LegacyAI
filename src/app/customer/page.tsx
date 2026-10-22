@@ -1,32 +1,21 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Bell, Mail } from "lucide-react";
+import { Bell, ChevronLeft, Mail } from "lucide-react";
 import { PhoneFrame } from "@/components/phone-frame";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getFeaturedCustomer } from "@/data/mock";
 import { useDemoStore } from "@/store/demo-store";
 import { cn } from "@/lib/utils";
 
-function NotificationCard({
-  firstName,
-  onOpen,
-}: {
-  firstName: string;
-  onOpen: () => void;
-}) {
-  return (
-    <div className="flex min-h-[560px] flex-1 flex-col gap-3 bg-gradient-to-b from-slate-100 to-slate-200 p-4 md:min-h-0">
-      <div className="rounded-xl bg-white p-4 shadow-sm md:hidden">
-        <p className="text-sm text-pnc-slate">Home</p>
-        <p className="mt-2 text-lg font-semibold text-pnc-navy">
-          Good afternoon, {firstName}
-        </p>
-      </div>
+type DemoStep = "push" | "email";
 
+/** Step 1 — push notification only (no profile / greeting card). */
+function PushNotification({ onOpen }: { onOpen: () => void }) {
+  return (
+    <div className="flex h-full min-h-[520px] flex-1 flex-col justify-center gap-5 bg-gradient-to-b from-slate-100 to-slate-200 px-5 py-8">
       <p className="text-center text-[11px] font-semibold uppercase tracking-wide text-pnc-orange">
         Tap notification
       </p>
@@ -36,28 +25,127 @@ function NotificationCard({
           type="button"
           onClick={onOpen}
           className={cn(
-            "w-full rounded-2xl border-2 border-pnc-orange bg-white p-4 text-left shadow-lg",
-            "hover:bg-orange-50",
+            "w-full rounded-2xl border-2 border-pnc-orange bg-white p-4 text-left shadow-lg transition-colors",
+            "hover:bg-orange-50 active:bg-orange-50",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pnc-orange"
           )}
-          aria-label="Open invitation — tap to continue"
+          aria-label="Open invite email"
         >
           <div className="flex items-start gap-3">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-pnc-orange text-white shadow-md">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-pnc-orange text-white shadow-md">
               <Bell className="h-5 w-5" aria-hidden />
             </span>
-            <div>
-              <p className="text-xs font-medium text-pnc-slate">Now</p>
-              <p className="mt-1 text-sm font-semibold text-pnc-navy">
-                [Demo] Ready to plan your emergency fund?
+            <div className="min-w-0 pt-0.5">
+              <div className="flex items-baseline justify-between gap-2">
+                <p className="text-sm font-semibold text-pnc-navy">LegacyAI</p>
+                <p className="shrink-0 text-[11px] text-pnc-slate">now</p>
+              </div>
+              <p className="mt-1 text-sm font-medium leading-snug text-pnc-navy">
+                New message from your advisor
               </p>
-              <p className="mt-1 text-xs text-pnc-slate">
-                Demo invite from your RM. Synthetic data only — tap to open the
-                AI chatbot intake.
+              <p className="mt-1 text-xs leading-relaxed text-pnc-slate">
+                Open your invite email to begin the LegacyAI planning intake.
               </p>
             </div>
           </div>
         </button>
+      </div>
+
+      <p className="text-center text-xs text-pnc-slate">
+        Opens the email next — not the chatbot yet
+      </p>
+    </div>
+  );
+}
+
+/** Step 2 — email inside the same phone frame; CTA starts intake. */
+function InviteEmail({
+  firstName,
+  lastName,
+  onBack,
+  onStartIntake,
+}: {
+  firstName: string;
+  lastName: string;
+  onBack: () => void;
+  onStartIntake: () => void;
+}) {
+  return (
+    <div className="flex h-full min-h-[520px] flex-1 flex-col bg-[#eef1f6]">
+      <div className="flex shrink-0 items-center gap-2 border-b border-pnc-border bg-white px-2 py-2.5">
+        <button
+          type="button"
+          onClick={onBack}
+          className="inline-flex items-center gap-0.5 rounded-md px-2 py-1.5 text-sm font-medium text-pnc-blue hover:bg-pnc-bg"
+          aria-label="Back to notification"
+        >
+          <ChevronLeft className="h-4 w-4" aria-hidden />
+          Inbox
+        </button>
+        <div className="flex min-w-0 flex-1 items-center justify-center gap-1.5">
+          <Mail className="h-4 w-4 shrink-0 text-pnc-blue" aria-hidden />
+          <span className="truncate text-sm font-semibold text-pnc-navy">
+            Mail
+          </span>
+        </div>
+        <span className="w-14 shrink-0" aria-hidden />
+      </div>
+
+      <div className="flex flex-1 flex-col overflow-y-auto p-3">
+        <article className="flex flex-1 flex-col rounded-xl bg-white p-4 shadow-sm">
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-pnc-orange">
+            Invite email
+          </p>
+          <h2 className="mt-2 text-base font-bold leading-snug text-pnc-navy">
+            Your LegacyAI planning invite
+          </h2>
+
+          <dl className="mt-3 space-y-1.5 border-b border-pnc-border pb-3 text-xs">
+            <div className="flex gap-2">
+              <dt className="w-12 shrink-0 text-pnc-slate">From</dt>
+              <dd className="font-medium text-pnc-navy">
+                LegacyAI Concierge
+              </dd>
+            </div>
+            <div className="flex gap-2">
+              <dt className="w-12 shrink-0 text-pnc-slate">To</dt>
+              <dd className="font-medium text-pnc-navy">
+                {firstName} {lastName}
+              </dd>
+            </div>
+            <div className="flex gap-2">
+              <dt className="w-12 shrink-0 text-pnc-slate">Subject</dt>
+              <dd className="font-medium text-pnc-navy">
+                Start your emergency-fund plan
+              </dd>
+            </div>
+          </dl>
+
+          <div className="mt-4 flex-1 space-y-3 text-sm leading-relaxed text-pnc-navy">
+            <p>Hi {firstName},</p>
+            <p>
+              Your relationship manager invited you to complete a short{" "}
+              <strong>LegacyAI</strong> intake. In a few questions, we&apos;ll
+              sketch how to split your fund across Liquidity, Safe Investment,
+              and Growth.
+            </p>
+            <p>
+              This is guidance only. An RM reviews every recommendation before
+              you act. Optional details are skippable anytime.
+            </p>
+            <p className="text-xs text-pnc-slate">
+              Demo prototype · synthetic data · not a real bank email
+            </p>
+          </div>
+
+          <Button
+            type="button"
+            className="mt-5 w-full"
+            onClick={onStartIntake}
+          >
+            Open intake chat
+          </Button>
+        </article>
       </div>
     </div>
   );
@@ -70,21 +158,20 @@ export default function CustomerNotificationPage() {
   const setRole = useDemoStore((s) => s.setRole);
   const featured =
     customers.find((c) => c.featured) ?? getFeaturedCustomer();
+  const [step, setStep] = useState<DemoStep>("push");
 
-  const notified =
-    featured.status === "Notified" ||
-    featured.status === "Engaged" ||
-    featured.status === "Meeting booked";
-
-  function openIntake() {
+  function openEmail() {
     setNotificationSeen(true);
+    setStep("email");
+  }
+
+  function startIntake() {
     setRole("customer");
     router.push("/customer/chat");
   }
 
-  // Immersive mobile: lock page chrome / footer under the notification screen.
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 767px)");
+    const mq = window.matchMedia("(max-width: 1023px)");
     function apply() {
       document.body.classList.toggle("demo-mobile-immersive", mq.matches);
     }
@@ -96,97 +183,44 @@ export default function CustomerNotificationPage() {
     };
   }, []);
 
+  const screen =
+    step === "push" ? (
+      <PushNotification onOpen={openEmail} />
+    ) : (
+      <InviteEmail
+        firstName={featured.firstName}
+        lastName={featured.lastName}
+        onBack={() => setStep("push")}
+        onStartIntake={startIntake}
+      />
+    );
+
   return (
-    <div className="md:space-y-4">
-      {/* Page chrome — desktop / tablet only */}
-      <div className="mb-4 hidden space-y-2 md:block">
-        <div className="flex flex-wrap items-start justify-between gap-2 sm:gap-3">
-          <h1 className="text-xl font-bold text-pnc-navy sm:text-2xl">
-            Use AI Demo
-          </h1>
-          <Link
-            href="/rm"
-            className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-pnc-blue hover:text-pnc-blue-light"
-          >
-            Go to RM Dashboard
-            <span aria-hidden>→</span>
-          </Link>
+    <div className="mx-auto flex w-full max-w-lg flex-col gap-4 lg:max-w-none">
+      <div className="hidden items-center justify-between gap-3 lg:flex">
+        <div>
+          <h1 className="text-2xl font-bold text-pnc-navy">Use AI Demo</h1>
+          <p className="mt-1 text-sm text-pnc-slate">
+            Notification → email → intake
+          </p>
         </div>
-        <p className="text-sm text-pnc-navy/80">
-          {notified
-            ? "Tap the highlighted notification to open the AI chatbot and complete your intake."
-            : "Tap the highlighted notification to interact with the AI chatbot, or send it from the RM dashboard first."}
-        </p>
+        <Link
+          href="/rm"
+          className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-pnc-blue hover:text-pnc-blue-light"
+        >
+          Go to RM Dashboard
+          <span aria-hidden>→</span>
+        </Link>
       </div>
 
-      {/* Desktop: tabs + phone frame */}
-      <div className="hidden md:block">
-        <Tabs defaultValue="push">
-          <TabsList>
-            <TabsTrigger value="push">Push</TabsTrigger>
-            <TabsTrigger value="email">Email</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="push">
-            <div className="flex justify-end py-4">
-              <PhoneFrame title="Messages">
-                <NotificationCard
-                  firstName={featured.firstName}
-                  onOpen={openIntake}
-                />
-              </PhoneFrame>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="email">
-            <div className="mx-auto max-w-xl rounded-lg border border-pnc-border bg-white shadow-sm">
-              <div className="flex items-center gap-2 border-b border-pnc-border bg-pnc-bg px-4 py-3">
-                <Mail className="h-4 w-4 text-pnc-blue" aria-hidden />
-                <span className="text-sm font-semibold text-pnc-navy">
-                  Email preview
-                </span>
-              </div>
-              <div className="space-y-3 p-5 text-sm">
-                <p className="rounded-md bg-amber-50 px-2.5 py-1.5 text-xs font-semibold text-amber-950">
-                  Mock email preview for this demo — not a real message from a
-                  bank.
-                </p>
-                <p>
-                  <span className="text-pnc-slate">From:</span> LegacyAI Demo
-                  &lt;demo@legacyai.example&gt;
-                </p>
-                <p>
-                  <span className="text-pnc-slate">To:</span>{" "}
-                  {featured.firstName} {featured.lastName}{" "}
-                  <span className="text-pnc-slate">(synthetic)</span>
-                </p>
-                <p>
-                  <span className="text-pnc-slate">Subject:</span> [DEMO]
-                  LegacyAI emergency-fund invitation
-                </p>
-                <hr className="border-pnc-border" />
-                <p className="text-pnc-navy">Hi {featured.firstName},</p>
-                <p className="text-pnc-navy">
-                  This is a <strong>clickable prototype</strong>. Your advisor
-                  (in the demo) invited you to try <strong>LegacyAI</strong>.
-                </p>
-                <Button type="button" onClick={openIntake}>
-                  Start LegacyAI Intake
-                </Button>
-              </div>
-            </div>
-          </TabsContent>
-        </Tabs>
-      </div>
-
-      {/* Mobile: immersive notification only — no page title / tabs */}
-      <div className="-mx-3 -mt-3 md:hidden">
-        <div className="min-h-[calc(100dvh-3.5rem)] bg-gradient-to-b from-slate-100 to-slate-200">
-          <NotificationCard
-            firstName={featured.firstName}
-            onOpen={openIntake}
-          />
-        </div>
+      <div className="-mx-3 flex justify-center lg:mx-0 lg:py-2">
+        <PhoneFrame
+          title={step === "push" ? "Messages" : "Mail"}
+          className="max-lg:max-w-none"
+          chrome
+        >
+          {screen}
+        </PhoneFrame>
       </div>
     </div>
   );
