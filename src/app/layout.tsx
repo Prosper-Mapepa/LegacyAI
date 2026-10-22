@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ClientOnly } from "@/components/client-only";
+import { PrototypeBanner } from "@/components/prototype-banner";
 import { PrototypeFooter } from "@/components/prototype-footer";
 import { Providers } from "@/components/providers";
 import { HeaderSkeleton, SiteLoader } from "@/components/site-loader";
@@ -18,9 +19,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LegacyAI",
+  title: "LegacyAI — Demo Prototype",
   description:
-    "AI-assisted wealth-transition and emergency-fund planning flow (synthetic prototype).",
+    "Clickable demo prototype only. Synthetic data. Not a real bank, not financial advice, and not a live product.",
+  robots: {
+    index: false,
+    follow: false,
+    googleBot: { index: false, follow: false },
+  },
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
@@ -41,6 +47,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col overflow-x-hidden antialiased`}
       >
         <Providers>
+          <PrototypeBanner />
           <ClientOnly fallback={<HeaderSkeleton />}>
             <SiteHeader />
           </ClientOnly>

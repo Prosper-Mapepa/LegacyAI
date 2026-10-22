@@ -89,11 +89,11 @@ export default function CustomerNotificationPage() {
                           Now
                         </p>
                         <p className="mt-1 text-sm font-semibold text-pnc-navy">
-                          Ready to plan your emergency fund?
+                          [Demo] Ready to plan your emergency fund?
                         </p>
                         <p className="mt-1 text-xs text-pnc-slate">
-                          Your relationship manager invited you to a short
-                          intake. Tap to get started.
+                          Demo invite from your RM. Synthetic data only — tap to
+                          open the AI chatbot intake.
                         </p>
                       </div>
                     </div>
@@ -113,30 +113,36 @@ export default function CustomerNotificationPage() {
               </span>
             </div>
             <div className="space-y-3 p-5 text-sm">
+              <p className="rounded-md bg-amber-50 px-2.5 py-1.5 text-xs font-semibold text-amber-950">
+                Mock email preview for this demo — not a real message from a
+                bank.
+              </p>
               <p>
-                <span className="text-pnc-slate">From:</span> LegacyAI Concierge
-                &lt;legacyai@example-bank.test&gt;
+                <span className="text-pnc-slate">From:</span> LegacyAI Demo
+                &lt;demo@legacyai.example&gt;
               </p>
               <p>
                 <span className="text-pnc-slate">To:</span> {featured.firstName}{" "}
-                {featured.lastName}
+                {featured.lastName}{" "}
+                <span className="text-pnc-slate">(synthetic)</span>
               </p>
               <p>
-                <span className="text-pnc-slate">Subject:</span> Your LegacyAI
+                <span className="text-pnc-slate">Subject:</span> [DEMO] LegacyAI
                 emergency-fund invitation
               </p>
               <hr className="border-pnc-border" />
               <p className="text-pnc-navy">Hi {featured.firstName},</p>
               <p className="text-pnc-navy">
-                Based on your relationship with us, your advisor invited you to
-                try <strong>LegacyAI</strong> — a short, guided way to think
-                about diversifying your fund across Liquidity, Safe Investment,
-                and Growth.
+                This is a <strong>clickable prototype</strong>. Your advisor
+                (in the demo) invited you to try <strong>LegacyAI</strong> — a
+                short, guided way to think about diversifying a synthetic fund
+                across Liquidity, Safe Investment, and Growth.
               </p>
               <p className="text-pnc-navy">
-                Everything is guidance only. An RM reviews recommendations before
-                you act. Optional health details personalize your emergency
-                buffer only and are never used for eligibility or pricing.
+                Guidance only. An RM reviews recommendations before you act.
+                Optional health details personalize the emergency buffer only
+                and are never used for eligibility or pricing. No real accounts
+                or money are involved.
               </p>
               <Button type="button" onClick={openIntake}>
                 Start LegacyAI Intake

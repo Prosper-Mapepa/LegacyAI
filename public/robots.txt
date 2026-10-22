@@ -1,0 +1,3 @@
+# This is a clickable demo / prototype — do not index as a real banking site.
+User-agent: *
+Disallow: /
