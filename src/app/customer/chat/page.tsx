@@ -108,6 +108,61 @@ function promptFor(step: StepId, lastName: string): string {
   }
 }
 
+function thinkingActionsFor(nextStep: StepId | undefined): string[] {
+  switch (nextStep) {
+    case "age":
+      return ["Verifying identity", "Opening your profile", "Thinking"];
+    case "salary":
+    case "expenses":
+    case "household":
+    case "fund":
+      return ["Saving your answer", "Updating intake", "Thinking"];
+    case "loans":
+      return ["Reviewing cash flow", "Thinking"];
+    case "consent":
+      return ["Noting planned expenses", "Thinking"];
+    case "medication":
+    case "habits":
+    case "conditions":
+      return ["Personalizing buffer", "Thinking"];
+    case "contact":
+      return ["Wrapping optional details", "Thinking"];
+    case "time":
+      return ["Saving preference", "Thinking"];
+    case "done":
+      return [
+        "Analyzing your answers",
+        "Assessing emergency exposure",
+        "Building Liquidity · Safe · Growth",
+        "Almost ready",
+      ];
+    default:
+      return ["Thinking", "Preparing next question"];
+  }
+}
+
+function ThinkingBubble({ label }: { label: string }) {
+  return (
+    <div
+      className="flex max-w-[85%] items-center gap-2.5 rounded-2xl bg-white px-3 py-2.5 text-sm text-pnc-slate shadow-sm"
+      aria-live="polite"
+      aria-label={`${label}`}
+    >
+      <span className="flex items-center gap-1" aria-hidden>
+        <span className="chat-thinking-dot size-1.5 rounded-full bg-pnc-blue" />
+        <span className="chat-thinking-dot size-1.5 rounded-full bg-pnc-blue" />
+        <span className="chat-thinking-dot size-1.5 rounded-full bg-pnc-blue" />
+      </span>
+      <span className="font-medium text-pnc-navy/80">
+        {label}
+        <span className="chat-thinking-ellipsis" aria-hidden>
+          ...
+        </span>
+      </span>
+    </div>
+  );
+}
+
 export default function CustomerChatPage() {
   const featured = getFeaturedCustomer();
   const updateIntake = useDemoStore((s) => s.updateIntake);
@@ -147,18 +202,59 @@ export default function CustomerChatPage() {
     growth: number;
   } | null>(null);
   const [unclassified, setUnclassified] = useState(false);
+  const [isThinking, setIsThinking] = useState(false);
+  const [thinkingLabel, setThinkingLabel] = useState("Thinking");
   const messagesRef = useRef<HTMLDivElement>(null);
+  const thinkingTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const thinkingIntervalRef = useRef<ReturnType<typeof setInterval> | null>(
+    null
+  );
   const chatHeight = useVisualViewportHeight(MOBILE_HEADER_OFFSET);
   const isMobile = useIsMobileLg();
 
   const step = STEPS[stepIndex];
+
+  function clearThinkingTimers() {
+    if (thinkingTimeoutRef.current) {
+      clearTimeout(thinkingTimeoutRef.current);
+      thinkingTimeoutRef.current = null;
+    }
+    if (thinkingIntervalRef.current) {
+      clearInterval(thinkingIntervalRef.current);
+      thinkingIntervalRef.current = null;
+    }
+  }
+
+  function replyWithThinking(
+    then: () => void,
+    actions: string[],
+    delayMs = 1000
+  ) {
+    clearThinkingTimers();
+    setIsThinking(true);
+    setThinkingLabel(actions[0] ?? "Thinking");
+    let i = 0;
+    if (actions.length > 1) {
+      thinkingIntervalRef.current = setInterval(() => {
+        i = (i + 1) % actions.length;
+        setThinkingLabel(actions[i] ?? "Thinking");
+      }, 700);
+    }
+    thinkingTimeoutRef.current = setTimeout(() => {
+      clearThinkingTimers();
+      setIsThinking(false);
+      then();
+    }, delayMs);
+  }
 
   // Scroll only inside the chat pane — never the page (avoids jump on mobile keyboard).
   useEffect(() => {
     const pane = messagesRef.current;
     if (!pane) return;
     pane.scrollTop = pane.scrollHeight;
-  }, [messages, stepIndex, chatHeight]);
+  }, [messages, stepIndex, chatHeight, isThinking, thinkingLabel]);
+
+  useEffect(() => () => clearThinkingTimers(), []);
 
   // Lock page scroll on mobile while the fixed chat shell is showing.
   useEffect(() => {
@@ -187,13 +283,24 @@ export default function CustomerChatPage() {
 
   function advance(nextIndex: number, nextLocal = localAnswers) {
     const nextStep = STEPS[nextIndex];
-    setStepIndex(nextIndex);
-    if (nextStep && nextStep !== "done") {
-      push("bot", promptFor(nextStep, featured.lastName));
-    }
-    if (nextStep === "done") {
-      finish(nextLocal);
-    }
+    const actions = thinkingActionsFor(nextStep);
+    const delayMs =
+      nextStep === "done"
+        ? 2200
+        : 850 + Math.floor(Math.random() * 450);
+
+    replyWithThinking(
+      () => {
+        setStepIndex(nextIndex);
+        if (nextStep === "done") {
+          finish(nextLocal);
+        } else if (nextStep) {
+          push("bot", promptFor(nextStep, featured.lastName));
+        }
+      },
+      actions,
+      delayMs
+    );
   }
 
   function finish(answers = localAnswers) {
@@ -245,6 +352,7 @@ export default function CustomerChatPage() {
   }
 
   function submitText() {
+    if (isThinking) return;
     const value = text.trim();
     if (!value && step !== "conditions" && step !== "medication") return;
     push("user", value || "(skipped)");
@@ -255,9 +363,15 @@ export default function CustomerChatPage() {
     switch (step) {
       case "lastname": {
         if (value.toLowerCase() !== featured.lastName.toLowerCase()) {
-          push(
-            "bot",
-            `Hmm, that doesn't match our records. Try again (hint: ${featured.lastName}).`
+          replyWithThinking(
+            () => {
+              push(
+                "bot",
+                `Hmm, that doesn't match our records. Try again (hint: ${featured.lastName}).`
+              );
+            },
+            ["Checking identity", "Looking up your profile", "Thinking"],
+            1100
           );
           return;
         }
@@ -297,6 +411,7 @@ export default function CustomerChatPage() {
   }
 
   function skipSensitive() {
+    if (isThinking) return;
     push("user", "Skip");
     advance(stepIndex + 1);
   }
@@ -357,6 +472,8 @@ export default function CustomerChatPage() {
                 </div>
               ))}
 
+              {isThinking && <ThinkingBubble label={thinkingLabel} />}
+
               {step === "done" && planPreview && (
                 <div className="rounded-xl border border-pnc-border bg-white p-3 text-sm shadow-sm">
                   <p className="font-semibold text-pnc-navy">
@@ -385,7 +502,12 @@ export default function CustomerChatPage() {
               )}
             </div>
 
-            <div className="mt-auto shrink-0 border-t border-pnc-border bg-white p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+            <div
+              className={cn(
+                "mt-auto shrink-0 border-t border-pnc-border bg-white p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]",
+                isThinking && "pointer-events-none opacity-60"
+              )}
+            >
               {step === "loans" && (
                 <div className="space-y-2">
                   <div className="flex flex-wrap gap-1.5">
@@ -418,7 +540,9 @@ export default function CustomerChatPage() {
                     <Button
                       size="sm"
                       className="flex-1"
+                      disabled={isThinking}
                       onClick={() => {
+                        if (isThinking) return;
                         push(
                           "user",
                           selectedLoans.length
@@ -439,7 +563,9 @@ export default function CustomerChatPage() {
                     <Button
                       size="sm"
                       variant="outline"
+                      disabled={isThinking}
                       onClick={() => {
+                        if (isThinking) return;
                         push("user", "Skip");
                         advance(stepIndex + 1);
                       }}
@@ -460,7 +586,9 @@ export default function CustomerChatPage() {
                     <Button
                       size="sm"
                       className="flex-1"
+                      disabled={isThinking}
                       onClick={() => {
+                        if (isThinking) return;
                         push("user", "I'll share optional details");
                         const next = {
                           ...localAnswers,
@@ -476,16 +604,27 @@ export default function CustomerChatPage() {
                     <Button
                       size="sm"
                       variant="outline"
+                      disabled={isThinking}
                       onClick={() => {
+                        if (isThinking) return;
                         push("user", "Skip optional health fields");
-                        // Jump past medication, habits, conditions
                         const next = {
                           ...localAnswers,
                           healthConsentGiven: false,
                         };
                         setLocalAnswers(next);
-                        setStepIndex(STEPS.indexOf("contact"));
-                        push("bot", promptFor("contact", featured.lastName));
+                        updateIntake({ healthConsentGiven: false });
+                        replyWithThinking(
+                          () => {
+                            setStepIndex(STEPS.indexOf("contact"));
+                            push(
+                              "bot",
+                              promptFor("contact", featured.lastName)
+                            );
+                          },
+                          ["Skipping optional fields", "Thinking"],
+                          1000
+                        );
                       }}
                     >
                       Skip all
@@ -526,7 +665,9 @@ export default function CustomerChatPage() {
                     <Button
                       size="sm"
                       className="flex-1"
+                      disabled={isThinking}
                       onClick={() => {
+                        if (isThinking) return;
                         push(
                           "user",
                           selectedHabits.length
@@ -543,7 +684,12 @@ export default function CustomerChatPage() {
                     >
                       Continue
                     </Button>
-                    <Button size="sm" variant="outline" onClick={skipSensitive}>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={isThinking}
+                      onClick={skipSensitive}
+                    >
                       Skip
                     </Button>
                   </div>
@@ -563,7 +709,9 @@ export default function CustomerChatPage() {
                       key={value}
                       size="sm"
                       variant="outline"
+                      disabled={isThinking}
                       onClick={() => {
+                        if (isThinking) return;
                         push("user", label);
                         const next = {
                           ...localAnswers,
@@ -587,7 +735,9 @@ export default function CustomerChatPage() {
                       key={slot}
                       size="sm"
                       variant="outline"
+                      disabled={isThinking}
                       onClick={() => {
+                        if (isThinking) return;
                         push("user", slot);
                         const next = {
                           ...localAnswers,
@@ -622,6 +772,7 @@ export default function CustomerChatPage() {
                   <Input
                     value={text}
                     onChange={(e) => setText(e.target.value)}
+                    disabled={isThinking}
                     onFocus={() => {
                       // Keep page pinned; only the message list may scroll.
                       window.scrollTo(0, 0);
@@ -649,12 +800,18 @@ export default function CustomerChatPage() {
                       variant="outline"
                       size="sm"
                       className="shrink-0"
+                      disabled={isThinking}
                       onClick={skipSensitive}
                     >
                       Skip
                     </Button>
                   )}
-                  <Button type="submit" size="sm" className="shrink-0">
+                  <Button
+                    type="submit"
+                    size="sm"
+                    className="shrink-0"
+                    disabled={isThinking}
+                  >
                     Send
                   </Button>
                 </form>
