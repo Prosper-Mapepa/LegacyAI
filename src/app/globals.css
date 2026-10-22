@@ -76,9 +76,21 @@ body {
 /* Intake chat on real phones: keep the chat fixed; only the message list scrolls */
 html.chat-mobile-lock,
 body.chat-mobile-lock {
-  overflow: hidden;
-  height: 100%;
+  overflow: hidden !important;
+  height: 100% !important;
+  position: relative;
   overscroll-behavior: none;
+  touch-action: pan-y;
+}
+
+/* Hide site footer under immersive mobile chat / demo */
+body.chat-mobile-lock footer,
+body.demo-mobile-immersive footer {
+  display: none;
+}
+
+body.demo-mobile-immersive {
+  overflow: hidden;
 }
 
 *:focus-visible {

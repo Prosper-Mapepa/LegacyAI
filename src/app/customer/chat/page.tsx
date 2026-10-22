@@ -13,6 +13,10 @@ import {
 } from "@/lib/ai";
 import type { Habit, PlannedLoan, ContactMethod } from "@/lib/types";
 import { formatCurrency, cn } from "@/lib/utils";
+import {
+  MOBILE_HEADER_OFFSET,
+  useVisualViewportHeight,
+} from "@/hooks/use-visual-viewport";
 import { useDemoStore } from "@/store/demo-store";
 
 type StepId =
@@ -143,6 +147,7 @@ export default function CustomerChatPage() {
   } | null>(null);
   const [unclassified, setUnclassified] = useState(false);
   const messagesRef = useRef<HTMLDivElement>(null);
+  const chatHeight = useVisualViewportHeight(MOBILE_HEADER_OFFSET);
 
   const step = STEPS[stepIndex];
 
@@ -151,17 +156,16 @@ export default function CustomerChatPage() {
     const pane = messagesRef.current;
     if (!pane) return;
     pane.scrollTop = pane.scrollHeight;
-  }, [messages, stepIndex]);
+  }, [messages, stepIndex, chatHeight]);
 
   // Lock page scroll on mobile while the fixed chat shell is showing.
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 767px)");
     function apply() {
-      document.documentElement.classList.toggle(
-        "chat-mobile-lock",
-        mq.matches
-      );
-      document.body.classList.toggle("chat-mobile-lock", mq.matches);
+      const on = mq.matches;
+      document.documentElement.classList.toggle("chat-mobile-lock", on);
+      document.body.classList.toggle("chat-mobile-lock", on);
+      if (on) window.scrollTo(0, 0);
     }
     apply();
     mq.addEventListener("change", apply);
@@ -313,13 +317,18 @@ export default function CustomerChatPage() {
       {/* Keeps layout height on mobile while chat is position:fixed */}
       <div className="h-[calc(100dvh-3.5rem)] md:hidden" aria-hidden />
 
-      {/* Mobile: fixed chat shell so keyboard focus doesn't scroll the page away */}
+      {/* Mobile: fixed chat shell sized to visual viewport (keyboard-safe) */}
       <div
         className={cn(
           "flex justify-center",
-          "max-md:fixed max-md:inset-x-0 max-md:bottom-0 max-md:top-14 max-md:z-30 max-md:bg-pnc-bg",
+          "max-md:fixed max-md:inset-x-0 max-md:top-14 max-md:z-30 max-md:bg-[#f7f9fc]",
           "max-md:px-0"
         )}
+        style={
+          chatHeight != null
+            ? { height: chatHeight, maxHeight: chatHeight }
+            : undefined
+        }
       >
         <PhoneFrame
           title="LegacyAI Chat"
@@ -610,17 +619,13 @@ export default function CustomerChatPage() {
                   <Input
                     value={text}
                     onChange={(e) => setText(e.target.value)}
-                    onFocus={(e) => {
-                      // Keep chat fixed: don't let the browser scroll the page.
-                      const y = window.scrollY;
+                    onFocus={() => {
+                      // Keep page pinned; only the message list may scroll.
+                      window.scrollTo(0, 0);
                       requestAnimationFrame(() => {
-                        window.scrollTo(0, y);
+                        window.scrollTo(0, 0);
                         const pane = messagesRef.current;
                         if (pane) pane.scrollTop = pane.scrollHeight;
-                      });
-                      e.target.scrollIntoView({
-                        block: "nearest",
-                        inline: "nearest",
                       });
                     }}
                     className="min-w-0 flex-1"
