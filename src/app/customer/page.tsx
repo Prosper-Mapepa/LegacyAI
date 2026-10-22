@@ -15,7 +15,7 @@ type DemoStep = "push" | "email";
 /** Step 1 — push notification only (no profile / greeting card). */
 function PushNotification({ onOpen }: { onOpen: () => void }) {
   return (
-    <div className="flex h-full min-h-[520px] flex-1 flex-col justify-center gap-5 bg-gradient-to-b from-slate-100 to-slate-200 px-5 py-8">
+    <div className="flex h-full min-h-[520px] flex-1 flex-col gap-3 bg-gradient-to-b from-slate-100 to-slate-200 px-4 pt-4 pb-8">
       <p className="text-center text-[11px] font-semibold uppercase tracking-wide text-pnc-orange">
         Tap notification
       </p>
@@ -33,7 +33,7 @@ function PushNotification({ onOpen }: { onOpen: () => void }) {
         >
           <div className="flex items-start gap-3">
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-pnc-orange text-white shadow-md">
-              <Bell className="h-5 w-5" aria-hidden />
+              <Bell className="notif-bell-vibrate h-5 w-5" aria-hidden />
             </span>
             <div className="min-w-0 pt-0.5">
               <div className="flex items-baseline justify-between gap-2">
@@ -50,10 +50,6 @@ function PushNotification({ onOpen }: { onOpen: () => void }) {
           </div>
         </button>
       </div>
-
-      <p className="text-center text-xs text-pnc-slate">
-        Opens the email next — not the chatbot yet
-      </p>
     </div>
   );
 }
