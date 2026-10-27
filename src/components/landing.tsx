@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DEMO_PASSWORD, signIn } from "@/domain/accounts";
 import { STORY } from "@/data/story";
 import { useDemoCompleted } from "@/lib/demo-completion";
@@ -15,10 +15,48 @@ const PATH = [
   { role: "Heir", beat: "Intake & plan" },
 ] as const;
 
+const TYPED_LINE = "Wealth Transition & Emergency-Fund Diversification";
+
+function useTypewriter(text: string, speedMs = 42, pauseMs = 2200) {
+  const [shown, setShown] = useState("");
+  const [phase, setPhase] = useState<"typing" | "holding" | "deleting">(
+    "typing"
+  );
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+
+    if (phase === "typing") {
+      if (shown.length < text.length) {
+        timer = setTimeout(
+          () => setShown(text.slice(0, shown.length + 1)),
+          speedMs
+        );
+      } else {
+        timer = setTimeout(() => setPhase("holding"), pauseMs);
+      }
+    } else if (phase === "holding") {
+      timer = setTimeout(() => setPhase("deleting"), 400);
+    } else if (shown.length > 0) {
+      timer = setTimeout(
+        () => setShown(text.slice(0, shown.length - 1)),
+        speedMs / 1.6
+      );
+    } else {
+      timer = setTimeout(() => setPhase("typing"), 500);
+    }
+
+    return () => clearTimeout(timer);
+  }, [shown, phase, text, speedMs, pauseMs]);
+
+  return shown;
+}
+
 export function Landing() {
   const router = useRouter();
   const demoDone = useDemoCompleted();
   const [pending, setPending] = useState(false);
+  const typed = useTypewriter(TYPED_LINE);
 
   async function startFullDemo() {
     setPending(true);
@@ -41,8 +79,15 @@ export function Landing() {
 
       <div className="relative mx-auto flex w-full max-w-3xl flex-col items-center px-4 text-center">
         <Logo className="h-16 sm:h-20" />
-        <p className="mt-8 text-sm font-bold uppercase tracking-[0.18em] text-orange">
-          Continuity pilot
+        <p className="mt-8 min-h-[2.75rem] max-w-xl text-sm font-bold uppercase tracking-[0.12em] sm:min-h-[3rem] sm:tracking-[0.16em]">
+          <span className="text-orange">AI-Assisted</span>{" "}
+          <span className="text-white" aria-label={TYPED_LINE}>
+            {typed}
+            <span
+              aria-hidden
+              className="ml-0.5 inline-block h-[1em] w-[0.08em] translate-y-[0.08em] animate-pulse bg-white align-baseline"
+            />
+          </span>
         </p>
         <h1 className="font-display mt-4 max-w-2xl text-4xl leading-tight tracking-tight text-white sm:text-5xl">
           {STORY.headline}
