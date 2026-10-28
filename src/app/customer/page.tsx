@@ -26,7 +26,10 @@ function PushNotification({ onOpen }: { onOpen: () => void }) {
         Tap notification
       </p>
 
-      <div className="rounded-2xl p-0.5 ring-4 ring-pnc-orange/40">
+      <div
+        data-tour="intake-push"
+        className="rounded-2xl p-0.5 ring-4 ring-pnc-orange/40"
+      >
         <button
           type="button"
           onClick={onOpen}
@@ -128,7 +131,12 @@ function InviteEmail({
       </div>
 
       <div className="shrink-0 border-t border-pnc-border bg-white px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-        <Button type="button" className="h-11 w-full text-base" onClick={onStartIntake}>
+        <Button
+          type="button"
+          data-tour="intake-push"
+          className="h-11 w-full text-base"
+          onClick={onStartIntake}
+        >
           Open intake chat
         </Button>
       </div>

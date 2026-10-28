@@ -80,6 +80,7 @@ export function IntakeStage({
                   <button
                     type="button"
                     disabled
+                    data-tour="next-step"
                     title={nextDisabledHint}
                     className="inline-flex h-10 cursor-not-allowed items-center rounded-lg bg-orange/40 px-4 text-sm font-bold text-ink/50"
                   >
@@ -89,6 +90,7 @@ export function IntakeStage({
                   <StepLink
                     href={nextHref}
                     stepId={nextStepId === "signal" ? "signal" : nextStepId}
+                    data-tour="next-step"
                     className="inline-flex h-10 items-center rounded-lg bg-orange px-4 text-sm font-bold text-ink hover:bg-orange-deep"
                   >
                     {nextLabel}

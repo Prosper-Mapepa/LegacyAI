@@ -16,7 +16,7 @@ export const HEIR_TO_CUSTOMER_ID: Record<string, string> = {
 };
 
 export const STORY = {
-  headline: "One family. Four roles. One path.",
+  headline: "Intergenerational Wealth Product",
   scenario: [
     "A review is coming for a large relationship at the bank.",
     "The Advisor ranks the book and prepares a brief.",

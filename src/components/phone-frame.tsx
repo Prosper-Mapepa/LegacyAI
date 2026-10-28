@@ -1,6 +1,11 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useState,
+  type HTMLAttributes,
+  type ReactNode,
+} from "react";
 import { Logo } from "@/components/logo";
 import { cn } from "@/lib/utils";
 
@@ -44,6 +49,7 @@ export function PhoneFrame({
   fillHeight = false,
   chrome = true,
   tone = "light",
+  ...rest
 }: {
   children: ReactNode;
   title?: string;
@@ -54,13 +60,14 @@ export function PhoneFrame({
   chrome?: boolean;
   /** light = mist content; dark = navy call / stage screens */
   tone?: "light" | "dark";
-}) {
+} & HTMLAttributes<HTMLDivElement>) {
   const contentBg = tone === "dark" ? "bg-[#061226]" : "bg-[#f7f9fc]";
   const homeBar = tone === "dark" ? "bg-[#061226]" : "bg-[#f7f9fc]";
   const homePill = tone === "dark" ? "bg-white/25" : "bg-slate-300";
 
   return (
     <div
+      {...rest}
       className={cn(
         "mx-auto w-full bg-transparent",
         // Default phone width; callers can override via className (e.g. landing hero).

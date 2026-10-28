@@ -13,6 +13,7 @@ import { AdvisorFlowRail, SHELL_PAD } from "./flow-chrome";
 import { Logo } from "./logo";
 import { RoleStepGuard } from "./role-step-guard";
 import { StepBriefingProvider, StepLink } from "./step-briefing";
+import { SystemTourProvider, useSystemTour } from "./system-tour";
 
 function ShellFrame({ children }: { children: ReactNode }) {
   const path = usePathname();
@@ -21,6 +22,7 @@ function ShellFrame({ children }: { children: ReactNode }) {
   const demoDone = useDemoCompleted();
   const { dispatch } = useLegacy();
   const resetWealth = useDemoStore((state) => state.resetDemo);
+  const { openTour } = useSystemTour();
   const [armReset, setArmReset] = useState(false);
   const stage =
     path === "/" ||
@@ -85,6 +87,15 @@ function ShellFrame({ children }: { children: ReactNode }) {
             <Logo className="h-9 sm:h-10" />
           </Link>
           <div className="flex flex-wrap items-center gap-2">
+            {deskOpen ? (
+              <button
+                type="button"
+                onClick={() => openTour()}
+                className="rounded-full border border-white/35 px-3.5 py-2 text-sm font-semibold text-white/90 transition hover:bg-white/10 hover:text-white"
+              >
+                Tour
+              </button>
+            ) : null}
             {deskOpen && links.length > 0 ? (
               <nav className="flex flex-wrap items-center gap-1 rounded-full bg-white/10 p-1">
                 {links.map((link) => {
@@ -191,9 +202,11 @@ function ShellFrame({ children }: { children: ReactNode }) {
 export function Shell({ children }: { children: ReactNode }) {
   return (
     <Suspense fallback={<div className="min-h-svh bg-mist" />}>
-      <StepBriefingProvider>
-        <ShellFrame>{children}</ShellFrame>
-      </StepBriefingProvider>
+      <SystemTourProvider>
+        <StepBriefingProvider>
+          <ShellFrame>{children}</ShellFrame>
+        </StepBriefingProvider>
+      </SystemTourProvider>
     </Suspense>
   );
 }

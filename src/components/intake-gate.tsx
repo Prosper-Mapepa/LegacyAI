@@ -28,12 +28,14 @@ export function IntakeGate({ children }: { children: React.ReactNode }) {
           >
             <div className="rounded-xl border border-line border-l-4 border-l-orange bg-white p-6">
               <p className="text-base leading-7 text-ink">
-                On Outreach: select Heir Whitfield → <strong>Approve outreach</strong>{" "}
-                → <strong>Send notification</strong>.
+                On Outreach: select Heir Whitfield →{" "}
+                <strong>Approve outreach</strong> →{" "}
+                <strong>Send notification</strong>.
               </p>
               <StepLink
                 href={outreach.href}
                 stepId="outreach"
+                data-tour="outreach-call"
                 className="mt-5 inline-flex h-11 items-center rounded-lg bg-orange px-5 text-sm font-bold text-ink hover:bg-orange-deep"
               >
                 Go to Outreach →

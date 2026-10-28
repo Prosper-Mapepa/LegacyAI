@@ -247,6 +247,7 @@ function HeirRow({
         </Button>
         <Button
           id={`allow-call-${heir.id}`}
+          data-tour={emphasize ? "allow-call" : undefined}
           disabled={heir.declinedIntro || !heir.invited}
           aria-pressed={heir.scopes.advisorIntro}
           variant={

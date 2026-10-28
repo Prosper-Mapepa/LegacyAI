@@ -86,6 +86,7 @@ export default function RmDashboardPage() {
             <StepLink
               href={hub.href}
               stepId="hub"
+              data-tour="outreach-call"
               className="mt-5 inline-flex h-11 items-center rounded-lg bg-orange px-5 text-sm font-bold text-ink hover:bg-orange-deep"
             >
               Go to Hub →
@@ -155,6 +156,7 @@ export default function RmDashboardPage() {
                   {!emailed ? (
                     <Button
                       type="button"
+                      data-tour="outreach-call"
                       onClick={() => setCallingHeirId(heir.id)}
                     >
                       Call {heir.firstName} {heir.lastName}
@@ -165,6 +167,7 @@ export default function RmDashboardPage() {
                       <StepLink
                         href="/customer"
                         stepId="intake"
+                        data-tour="outreach-call"
                         className="inline-flex h-10 items-center rounded-lg bg-orange px-4 text-sm font-bold text-ink hover:bg-orange-deep"
                       >
                         Continue to Intake →

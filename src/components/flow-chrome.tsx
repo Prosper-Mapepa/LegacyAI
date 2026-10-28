@@ -115,6 +115,7 @@ export function AdvisorFlowRail() {
             {gateNext ? (
               <button
                 type="button"
+                data-tour="next-step"
                 onClick={() =>
                   needsAllow ? showAllowPrompt() : showNotifyPrompt()
                 }
@@ -126,6 +127,7 @@ export function AdvisorFlowRail() {
               <StepLink
                 href={nextHref}
                 stepId={nextId}
+                data-tour="next-step"
                 className="inline-flex h-10 items-center rounded-lg bg-orange px-4 text-sm font-bold text-ink hover:bg-orange-deep"
               >
                 {nextLabel} →
@@ -275,6 +277,7 @@ export function StageFooterCta({ pathname }: { pathname?: string }) {
       {gateNext ? (
         <button
           type="button"
+          data-tour="next-step"
           onClick={() =>
             needsAllow ? showAllowPrompt() : showNotifyPrompt()
           }
@@ -286,6 +289,7 @@ export function StageFooterCta({ pathname }: { pathname?: string }) {
         <StepLink
           href={nextHref}
           stepId={nextId}
+          data-tour="next-step"
           className="inline-flex h-11 items-center rounded-lg bg-orange px-5 text-sm font-bold text-ink hover:bg-orange-deep"
         >
           {label} →

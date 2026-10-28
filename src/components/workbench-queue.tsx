@@ -41,6 +41,7 @@ export function WorkbenchQueue() {
       {first && (
         <Link
           href={`/workbench/${first.householdId}`}
+          data-tour="open-desk"
           className="block rounded-xl border border-line border-l-4 border-l-orange bg-white p-5 transition hover:border-orange sm:p-6"
         >
           <div className="flex flex-wrap items-center justify-between gap-2">

@@ -15,6 +15,7 @@ import {
   personMatchesStepRole,
   roleSwitchHref,
 } from "@/lib/demo-flow";
+import { useSystemTourOptional } from "@/components/system-tour";
 
 export function Gate({
   area,
@@ -32,6 +33,7 @@ export function Gate({
   const path = usePathname();
   const account = useAccount();
   const person = usePerson();
+  const tour = useSystemTourOptional();
   const home = nextPathFor(account);
   const deskReady = isDeskReady(account);
   const ok =
@@ -39,6 +41,8 @@ export function Gate({
 
   useEffect(() => {
     if (!ready) return;
+    // Tour drives seat + route; don't fight it
+    if (tour?.open) return;
     if (!account) {
       router.replace("/sign-in");
       return;
@@ -56,7 +60,12 @@ export function Gate({
       return;
     }
     router.replace(home);
-  }, [ready, account, deskReady, home, ok, path, person, router]);
+  }, [ready, account, deskReady, home, ok, path, person, router, tour?.open]);
+
+  // While tour is open, render the screen so spotlight targets exist
+  if (tour?.open && ready && account && deskReady) {
+    return children;
+  }
 
   if (!ready || !ok) {
     return <p className="text-lg text-muted">Opening your desk.</p>;

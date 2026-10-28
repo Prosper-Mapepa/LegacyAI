@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DEMO_PASSWORD, signIn } from "@/domain/accounts";
 import { STORY } from "@/data/story";
 import { useDemoCompleted } from "@/lib/demo-completion";
@@ -15,48 +15,10 @@ const PATH = [
   { role: "Heir", beat: "Intake & plan" },
 ] as const;
 
-const TYPED_LINE = "Wealth Transition & Emergency-Fund Diversification";
-
-function useTypewriter(text: string, speedMs = 42, pauseMs = 2200) {
-  const [shown, setShown] = useState("");
-  const [phase, setPhase] = useState<"typing" | "holding" | "deleting">(
-    "typing",
-  );
-
-  useEffect(() => {
-    let timer: ReturnType<typeof setTimeout>;
-
-    if (phase === "typing") {
-      if (shown.length < text.length) {
-        timer = setTimeout(
-          () => setShown(text.slice(0, shown.length + 1)),
-          speedMs,
-        );
-      } else {
-        timer = setTimeout(() => setPhase("holding"), pauseMs);
-      }
-    } else if (phase === "holding") {
-      timer = setTimeout(() => setPhase("deleting"), 400);
-    } else if (shown.length > 0) {
-      timer = setTimeout(
-        () => setShown(text.slice(0, shown.length - 1)),
-        speedMs / 1.6,
-      );
-    } else {
-      timer = setTimeout(() => setPhase("typing"), 500);
-    }
-
-    return () => clearTimeout(timer);
-  }, [shown, phase, text, speedMs, pauseMs]);
-
-  return shown;
-}
-
 export function Landing() {
   const router = useRouter();
   const demoDone = useDemoCompleted();
   const [pending, setPending] = useState(false);
-  const typed = useTypewriter(TYPED_LINE);
 
   async function startFullDemo() {
     setPending(true);
@@ -81,14 +43,7 @@ export function Landing() {
       <div className="relative mx-auto grid w-full max-w-6xl items-center gap-10 px-2 py-8 sm:px-4 lg:grid-cols-[minmax(0,1fr)_360px] lg:gap-16 lg:py-5 xl:px-6">
         <div className="flex max-w-xl flex-col items-start text-left">
           <p className="text-xs font-bold uppercase tracking-[0.12em] text-orange sm:text-sm sm:tracking-[0.14em]">
-            <span className="text-orange">AI-Assisted</span>{" "}
-            <span className="text-white/90" aria-label={TYPED_LINE}>
-              {typed}
-              <span
-                aria-hidden
-                className="ml-0.5 inline-block h-[0.95em] w-[0.07em] translate-y-[0.08em] animate-pulse bg-white align-baseline"
-              />
-            </span>
+            AI-Assisted
           </p>
 
           <h1 className="font-display mt-5 text-5xl leading-[1.05] tracking-tight text-white sm:text-6xl">
@@ -112,20 +67,11 @@ export function Landing() {
             {demoDone ? (
               <Link
                 href="/sign-in"
-                className="inline-flex min-h-12 min-w-[12rem] items-center justify-center rounded-full border border-white/80 px-8 text-lg font-bold text-white transition hover:bg-white/10"
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/40 px-6 text-base font-semibold text-white/90 transition hover:bg-white/10"
               >
                 Sign in as family
               </Link>
-            ) : (
-              <button
-                type="button"
-                disabled
-                title="Finish the full demo once to unlock family sign-in"
-                className="inline-flex min-h-12 min-w-[12rem] cursor-not-allowed items-center justify-center rounded-full border border-white/25 px-8 text-lg font-bold text-white/35"
-              >
-                Sign in as family
-              </button>
-            )}
+            ) : null}
           </div>
 
           <ol className="mt-10 flex flex-wrap items-center gap-x-2 gap-y-2.5">
