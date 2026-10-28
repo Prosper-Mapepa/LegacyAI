@@ -2,7 +2,6 @@
 
 import { useMemo } from "react";
 import { CustomerPanel } from "@/components/rm/customer-panel";
-import { Sparkline } from "@/components/rm/sparkline";
 import { Badge } from "@/components/ui/badge";
 import {
   Sheet,
@@ -49,13 +48,9 @@ export function ClientAnalysisBook({
       .filter((c) => matchesBalanceTarget(c.balance, filter))
       .map((c) => {
         const yearly = avgYearlySpending(c.spendingHistory);
-        const spark = c.spendingHistory
-          .filter((_, i) => i % 3 === 0)
-          .map((r, i) => ({ i, v: r.amount }));
         return {
           customer: c,
           yearly,
-          spark,
           score: scoreCustomer(c),
         };
       })
@@ -75,7 +70,7 @@ export function ClientAnalysisBook({
       </div>
 
       <div className="space-y-2 lg:hidden">
-        {rows.map(({ customer, yearly, spark, score }) => {
+        {rows.map(({ customer, yearly, score }) => {
           const active = customer.id === selectedCustomerId;
           return (
             <button
@@ -116,10 +111,9 @@ export function ClientAnalysisBook({
                 <span className="text-xs text-pnc-slate">
                   Other: {formatCurrency(customer.otherYearlyEarnings)}
                 </span>
-                <Sparkline
-                  data={spark}
-                  ariaLabel={`Five-year spending trend for ${customer.firstName}`}
-                />
+                <span className="text-xs font-medium text-pnc-navy">
+                  Age {customer.age}
+                </span>
               </div>
             </button>
           );
@@ -157,7 +151,7 @@ export function ClientAnalysisBook({
                   Other earnings
                 </th>
                 <th scope="col" className="px-3 py-3 font-semibold">
-                  5-yr spending
+                  Age
                 </th>
                 <th scope="col" className="px-3 py-3 font-semibold">
                   AI priority
@@ -168,7 +162,7 @@ export function ClientAnalysisBook({
               </tr>
             </thead>
             <tbody>
-              {rows.map(({ customer, yearly, spark, score }) => {
+              {rows.map(({ customer, yearly, score }) => {
                 const active = customer.id === selectedCustomerId;
                 return (
                   <tr
@@ -203,12 +197,7 @@ export function ClientAnalysisBook({
                     <td className="px-3 py-2.5">
                       {formatCurrency(customer.otherYearlyEarnings)}
                     </td>
-                    <td className="px-3 py-2.5">
-                      <Sparkline
-                        data={spark}
-                        ariaLabel={`Five-year spending trend for ${customer.firstName}`}
-                      />
-                    </td>
+                    <td className="px-3 py-2.5">{customer.age}</td>
                     <td className="px-3 py-2.5">
                       <span className="inline-flex h-7 min-w-[2rem] items-center justify-center rounded bg-pnc-navy px-2 text-xs font-bold text-white">
                         {score}
