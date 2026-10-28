@@ -22,7 +22,7 @@ import {
 import { useDemoStore } from "@/store/demo-store";
 import { StepLink, useStepBriefing } from "./step-briefing";
 
-export const SHELL_PAD = "mx-auto w-full max-w-[1600px] px-6 lg:px-10";
+export const SHELL_PAD = "mx-auto w-full max-w-none px-6 lg:px-8 xl:px-10";
 
 /** Compact step rail — only this seat’s steps. */
 export function AdvisorFlowRail() {

@@ -44,8 +44,8 @@ function generateSpendingHistory(
 }
 
 /**
- * Same people as the continuity book. Featured row = Pilot Heir ($100K+).
- * firstName/lastName are role labels so the whole system reads the same way.
+ * Same people as the continuity book. Featured row = Whitfield Heir ($100K+).
+ * firstName is the role label; lastName is the family surname.
  */
 export const customers: Customer[] = [
   {
@@ -65,7 +65,7 @@ export const customers: Customer[] = [
   {
     id: "cust-ready",
     firstName: "Heir",
-    lastName: "Ready",
+    lastName: "Okonkwo",
     age: 36,
     balance: 245_000,
     monthlySalary: 14_200,
@@ -78,7 +78,7 @@ export const customers: Customer[] = [
   {
     id: "cust-watch",
     firstName: "Heir",
-    lastName: "Watch",
+    lastName: "Alvarez",
     age: 29,
     balance: 112_500,
     monthlySalary: 9_800,
@@ -91,7 +91,7 @@ export const customers: Customer[] = [
   {
     id: "cust-hold",
     firstName: "Heir",
-    lastName: "Hold",
+    lastName: "Chen",
     age: 45,
     balance: 520_000,
     monthlySalary: 18_000,
@@ -120,7 +120,7 @@ export const heirs: Heir[] = [
   {
     id: "heir-link",
     customerId: FEATURED_CUSTOMER_ID,
-    name: "Heir Pilot",
+    name: `Heir ${FAMILY_LAST_NAME}`,
     relationship: "Adult child",
   },
 ];

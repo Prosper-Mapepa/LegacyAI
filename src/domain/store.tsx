@@ -4,7 +4,7 @@ import { createContext, useContext, useMemo, useSyncExternalStore, type ReactNod
 import { initialState, reduce } from "./reduce";
 import type { Action, DemoState } from "./types";
 
-const KEY = "legacyai.book.v4";
+const KEY = "legacyai.book.v5";
 
 type LegacyApi = {
   state: DemoState;

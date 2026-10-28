@@ -105,7 +105,7 @@ export default function RmDashboardPage() {
       >
         {callingHeir && household && (
           <SimulatedCall
-            principalName={callingHeir.firstName}
+            principalName={`${callingHeir.firstName} ${callingHeir.lastName}`}
             familyName={household.familyName}
             talkNote={outreachTalkNote(household, callingHeir)}
             talkBeats={outreachTalkBeats(household, callingHeir)}
@@ -132,7 +132,7 @@ export default function RmDashboardPage() {
                       Approved to call
                     </p>
                     <h2 className="font-display mt-1 text-2xl text-ink">
-                      {heir.firstName}
+                      {heir.firstName} {heir.lastName}
                     </h2>
                     <p className="text-sm text-muted">{heir.relationship}</p>
                   </div>
@@ -144,7 +144,7 @@ export default function RmDashboardPage() {
                     Advisor note
                   </p>
                   <p className="mt-1 text-sm leading-6 text-ink">
-                    Tell {heir.firstName} what LegacyAI is, that{" "}
+                    Tell {heir.firstName} {heir.lastName} what LegacyAI is, that{" "}
                     {household?.principal.firstName ?? "Principal"} allowed this
                     call, and that we’ll send an email with directions for
                     intake on their phone. No figures on the call.
@@ -157,7 +157,7 @@ export default function RmDashboardPage() {
                       type="button"
                       onClick={() => setCallingHeirId(heir.id)}
                     >
-                      Call {heir.firstName}
+                      Call {heir.firstName} {heir.lastName}
                     </Button>
                   ) : (
                     <>

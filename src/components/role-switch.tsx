@@ -22,6 +22,12 @@ const field =
 
 const glass = "rounded-2xl border border-white/15 bg-white/10 backdrop-blur-sm";
 
+const ROLE_FROM: Record<string, string> = {
+  advisor: "Advisor",
+  principal: "Principal",
+  heir: "Heir",
+};
+
 const ROLE_BLURB: Record<TabRole, string> = {
   Advisor: "You see the book, briefs, and outreach. Lesson answers stay private.",
   Principal: "You invite Heir and allow a call before Outreach can begin.",
@@ -78,7 +84,10 @@ export function RoleSwitch() {
     await finish(seatEmail, password);
   }
 
-  const fromRole = person?.roleLabel ?? "your current seat";
+  const fromRole =
+    person?.roleLabel ||
+    (person?.role ? ROLE_FROM[person.role] : null) ||
+    "your current seat";
 
   return (
     <div className="mx-auto grid w-full max-w-3xl gap-8 px-1 py-10 lg:py-14">
@@ -90,15 +99,16 @@ export function RoleSwitch() {
           Sign in as {step.role}
         </h1>
         <p className="mt-4 max-w-xl text-lg leading-8 text-white/75">
-          You were acting as <strong className="text-white">{fromRole}</strong>.
-          The next stage — <strong className="text-white">{step.label}</strong> —
-          needs the {step.role} seat. {ROLE_BLURB[step.role]}
+          You were acting as{" "}
+          <strong className="text-white">{fromRole}</strong>. The next stage —{" "}
+          <strong className="text-white">{step.label}</strong> — needs the{" "}
+          {step.role} seat. {ROLE_BLURB[step.role]}
         </p>
       </div>
 
       <div className={`p-6 sm:p-8 ${glass}`}>
         <p className="text-base font-bold text-white">
-          Pilot seat · {seatEmail}
+          Whitfield seat · {seatEmail}
         </p>
         <p className="mt-1 text-sm text-white/65">
           Password defaults to{" "}

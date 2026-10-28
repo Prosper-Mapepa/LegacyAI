@@ -113,7 +113,7 @@ export function ProcessLoader({
 export const OUTREACH_LOADER: LoaderStage[] = [
   {
     label: "Reading the book signal",
-    detail: "Matching this customer to continuity priority for Pilot family.",
+    detail: "Matching this customer to continuity priority for Whitfield family.",
   },
   {
     label: "Scoring idle cash & spending",
@@ -151,7 +151,7 @@ export const PLAN_BUILD_LOADER: LoaderStage[] = [
 export const INTAKE_FINISH_LOADER: LoaderStage[] = [
   {
     label: "Confirming your answers",
-    detail: "Saving intake for Heir Pilot — health only if you consented.",
+    detail: "Saving intake for Heir Whitfield — health only if you consented.",
   },
   {
     label: "AI analyzing your profile",

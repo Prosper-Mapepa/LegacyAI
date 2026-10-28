@@ -180,7 +180,7 @@ function HeirRow({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <h2 className="font-display text-xl tracking-tight text-ink">
-            {heir.firstName}
+            {heir.firstName} {heir.lastName}
           </h2>
           <p className="text-sm text-muted">
             {heir.relationship}

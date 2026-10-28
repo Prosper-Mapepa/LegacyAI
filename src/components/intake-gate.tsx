@@ -28,7 +28,7 @@ export function IntakeGate({ children }: { children: React.ReactNode }) {
           >
             <div className="rounded-xl border border-line border-l-4 border-l-orange bg-white p-6">
               <p className="text-base leading-7 text-ink">
-                On Outreach: select Heir Pilot → <strong>Approve outreach</strong>{" "}
+                On Outreach: select Heir Whitfield → <strong>Approve outreach</strong>{" "}
                 → <strong>Send notification</strong>.
               </p>
               <StepLink

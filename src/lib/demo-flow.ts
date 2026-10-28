@@ -49,8 +49,8 @@ export const DEMO_FLOW: DemoStep[] = [
       youAre: "Role: Advisor",
       why: "AI ranks the book and surfaces client figures. You decide the next conversation.",
       doThis: [
-        "Review Heir Pilot’s calculated report.",
-        "Pilot family should be first in the list.",
+        "Review Heir Whitfield’s calculated report.",
+        "Whitfield family should be first in the list.",
         "Open it, or tap Next for the Book.",
       ],
     },
@@ -68,7 +68,7 @@ export const DEMO_FLOW: DemoStep[] = [
       youAre: "Role: Advisor",
       why: "Turn the signal into a brief. Then the Principal must allow outreach.",
       doThis: [
-        "Open Pilot family.",
+        "Open Whitfield family.",
         "Approve or set aside your brief.",
         "Go to Hub so the Principal can allow a call.",
       ],
@@ -126,7 +126,7 @@ export const DEMO_FLOW: DemoStep[] = [
       why: "You are the customer on the phone.",
       doThis: [
         "Tap the notification, then the email.",
-        "Last name is Pilot.",
+        "Last name is Whitfield.",
         "Finish intake, then open the Plan.",
       ],
     },
@@ -266,7 +266,7 @@ export function domainRoleForTab(role: TabRole): Role {
   return "heir";
 }
 
-/** Pilot seat emails for each demo role */
+/** Whitfield seat emails for each demo role */
 export const ROLE_SEAT_EMAIL: Record<TabRole, string> = {
   Advisor: "advisor@legacyai.com",
   Principal: "principal@legacyai.com",

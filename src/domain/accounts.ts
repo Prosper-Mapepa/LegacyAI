@@ -26,7 +26,7 @@ const OTP_KEY = "legacyai.otp.v1";
 /** Demo password for every seeded seat. */
 export const DEMO_PASSWORD = "LegacyAI1";
 
-/** Pilot OTP shown after create account. */
+/** Demo OTP shown after create account. */
 export const DEMO_OTP = "246810";
 
 const SEED: Account[] = [

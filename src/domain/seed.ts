@@ -6,7 +6,7 @@ export { ADVISOR };
 export const seedHouseholds: Household[] = [
   {
     id: PILOT_HOUSEHOLD_ID,
-    familyName: "Pilot family",
+    familyName: "Whitfield family",
     relationshipValue: "$18.4 million",
     reviewOn: "2027-01-14",
     principal: {

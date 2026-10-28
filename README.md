@@ -4,18 +4,18 @@ One complete demo flow for inheritance continuity and wealth transition.
 
 ## Full path
 
-Shared chrome on every advisor stage: step rail, orange **Next**, matching headers, and a **briefing modal** before each step.
+Shared chrome on every advisor stage: step rail, orange **Next**, and matching headers. Open **Guide** anytime for a step briefing.
 
-**Roles (same Pilot family everywhere):** Advisor · Principal · Heir · Sibling
+**Roles (same Whitfield family everywhere):** Advisor · Principal · Heir · Sibling
 
 1. **Signal** — `/dashboard`
-2. **Book** — `/workbench` → Pilot family desk
+2. **Book** — `/workbench` → Whitfield family desk
 3. **Hub** — `/hub/whitmore` · Principal invites Heir and **allows a call**
-4. **Outreach** — `/rm` · unlocked only after Hub approval · **Heir Pilot**
-5. **Intake** — `/customer` → `/customer/chat` · last name **Pilot**
+4. **Outreach** — `/rm` · unlocked only after Hub approval · **Heir Whitfield**
+5. **Intake** — `/customer` → `/customer/chat` · last name **Whitfield**
 6. **Plan** — `/customer/plan`
 
-Synthetic pilot data only. Not financial advice.
+Synthetic demo data only. Not financial advice.
 
 ## Setup
 

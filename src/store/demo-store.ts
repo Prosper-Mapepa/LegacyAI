@@ -327,7 +327,7 @@ export const useDemoStore = create<DemoState>()(
         }),
     }),
     {
-      name: "legacyai-demo-v3",
+      name: "legacyai-demo-v4",
       partialize: (state) => ({
         role: state.role,
         customers: state.customers.map((c) => ({

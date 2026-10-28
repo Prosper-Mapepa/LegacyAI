@@ -275,7 +275,7 @@ export function ClientAnalysisBook({
               if (featured) selectCustomer(featured.id);
             }}
           >
-            Heir Pilot
+            Heir Whitfield
           </button>
           .
         </p>

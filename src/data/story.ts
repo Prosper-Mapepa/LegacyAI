@@ -1,5 +1,5 @@
 /**
- * One pilot story for the whole demo. Roles — not personal names — are what you see.
+ * One Whitfield family story for the whole demo. Roles — not personal names — are what you see.
  * Internal ids stay stable for routes and tests.
  */
 
@@ -7,7 +7,7 @@ export const PILOT_HOUSEHOLD_ID = "whitmore";
 export const FEATURED_HEIR_ID = "david";
 export const FEATURED_CUSTOMER_ID = "cust-heir";
 export const SIBLING_CUSTOMER_ID = "cust-sibling";
-export const FAMILY_LAST_NAME = "Pilot";
+export const FAMILY_LAST_NAME = "Whitfield";
 
 /** Continuity heir id → deposit customer on the outreach book */
 export const HEIR_TO_CUSTOMER_ID: Record<string, string> = {

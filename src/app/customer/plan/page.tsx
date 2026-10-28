@@ -19,13 +19,16 @@ import { useDemoStore } from "@/store/demo-store";
 import { cn } from "@/lib/utils";
 
 export default function CustomerPlanPage() {
-  const [phase, setPhase] = useState<"loading" | "diagram" | "ready">("loading");
   const { dispatch } = useLegacy();
   const plan = useDemoStore((s) => s.planSnapshot);
   const heirChoice = useDemoStore((s) => s.heirChoice);
   const intakeDone = useDemoStore((s) => s.intake.completed);
   const customers = useDemoStore((s) => s.customers);
   const isMobile = useIsMobileLg();
+  // Intake chat already ran build + AI analysis once — skip the repeat here
+  const [phase, setPhase] = useState<"loading" | "diagram" | "ready">(() =>
+    plan ? "ready" : "loading",
+  );
   const planReviewDone = phase === "ready" && Boolean(heirChoice);
   const canLeave = intakeDone && planReviewDone;
 
@@ -37,6 +40,10 @@ export default function CustomerPlanPage() {
       null
     );
   }, [customers, plan?.customerId]);
+
+  useEffect(() => {
+    if (plan && phase !== "ready") setPhase("ready");
+  }, [plan, phase]);
 
   useEffect(() => {
     if (!canLeave || !client) return;
@@ -78,7 +85,7 @@ export default function CustomerPlanPage() {
     <IntakeGate>
       <IntakeStage
         title="Your plan"
-        body="Watch the model inside the phone, then review the draft split."
+        body="Review the draft split — then choose Save or Reinvest."
         ariaLabel="Diversification plan"
         nextHref="/dashboard"
         nextStepId="signal"
@@ -90,18 +97,12 @@ export default function CustomerPlanPage() {
             items={[
               {
                 n: 1,
-                label: "AI reads your intake",
-                done: phase !== "loading",
+                label: "AI built your draft",
+                done: Boolean(plan) || phase !== "loading",
                 active: phase === "loading",
               },
               {
                 n: 2,
-                label: "AI suggests a split",
-                done: phase === "ready",
-                active: phase === "diagram",
-              },
-              {
-                n: 3,
                 label: "You review the plan",
                 done: planReviewDone,
                 active: phase === "ready" && !planReviewDone,
@@ -137,7 +138,7 @@ export default function CustomerPlanPage() {
               <AiDecisionFlow
                 phone
                 animate
-                subject="Heir Pilot's intake"
+                subject="Heir Whitfield's intake"
                 buckets={buckets}
                 onComplete={() => setPhase("ready")}
               />

@@ -13,7 +13,7 @@ const LANE_NAME: Record<Lane, string> = {
 
 export function prompts(role: Role) {
   if (role === "advisor") {
-    return ["Who needs me today?", "May I call Heir Pilot?", "What stays hidden?"];
+    return ["Who needs me today?", "May I call Heir Whitfield?", "What stays hidden?"];
   }
   if (role === "principal") {
     return ["Who can the Advisor call?", "Who is not invited?", "Can a decline be undone?"];

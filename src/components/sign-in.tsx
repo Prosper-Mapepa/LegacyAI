@@ -100,7 +100,7 @@ export function SignIn() {
       </div>
 
       <aside className={`p-6 sm:p-7 ${glass}`}>
-        <p className="text-xl font-bold text-white">Pilot seats</p>
+        <p className="text-xl font-bold text-white">Whitfield seats</p>
         <p className="mt-2 text-base leading-7 text-white/70">
           Three roles for the demo. Password:{" "}
           <span className="font-bold text-white">{DEMO_PASSWORD}</span>
@@ -113,7 +113,7 @@ export function SignIn() {
                   <p className="text-lg font-bold text-orange">{ROLE_LABEL[account.role]}</p>
                   <p className="mt-1 text-xl font-bold text-white">{account.name}</p>
                   <p className="mt-1 text-base text-white/65">
-                    Pilot family · {account.email}
+                    Whitfield family · {account.email}
                   </p>
                 </div>
                 <button

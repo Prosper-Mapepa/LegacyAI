@@ -177,14 +177,12 @@ export function StepBriefingProvider({ children }: { children: ReactNode }) {
     }
     const step = matchDemoStep(path);
     if (!personMatchesStepRole(person.role, step.role)) return;
+    // No auto “What’s happening” modals — open via Guide when needed
     if (seen.has(step.id)) {
       setPending((current) =>
         current?.id === step.id ? null : current,
       );
-      return;
     }
-    // Show “What’s happening” only after we are on that step’s route
-    setPending({ ...step, href: step.href });
   }, [path, person, ready, seen]);
 
   const confirm = useCallback(() => {
@@ -306,7 +304,7 @@ function NotifyPrompt({
           Send notification first
         </h2>
         <p className="mt-3 text-base leading-7 text-muted">
-          Approve outreach for Heir Pilot, then tap{" "}
+          Approve outreach for Heir Whitfield, then tap{" "}
           <strong className="text-ink">Send notification</strong>. Intake opens
           only after that invite goes out.
         </p>

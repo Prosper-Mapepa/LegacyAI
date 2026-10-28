@@ -112,7 +112,7 @@ function InviteEmail({
         <div className="mt-5 space-y-3.5 text-[15px] leading-relaxed text-pnc-navy">
           <p>Hi {firstName},</p>
           <p>
-            Your Advisor invited you (the Heir on Pilot family) to complete a short{" "}
+            Your Advisor invited you (the Heir on Whitfield family) to complete a short{" "}
             <strong>LegacyAI</strong> intake. Answer a few questions and we
             will sketch how to split your fund across Liquidity, Safe
             Investment, and Growth.
